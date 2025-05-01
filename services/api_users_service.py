@@ -24,7 +24,7 @@ class ApiUsersService:
         logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
         user_id = response.json().get('id')
         if response.status_code == 200:
-            write_value_in_json('./data/users.json', user_id,'userId')
+            write_value_in_json(settings.USERS_PATH, user_id,'userId')
             return response
         else:
             logging.info(f'User {user_id} is existing.')
@@ -53,7 +53,7 @@ class ApiUsersService:
     @retry(3)
     def delete_api_user(userid=None):
         if userid is None:
-            userid = read_value_in_json('./data/users.json', 'userId')
+            userid = read_value_in_json(settings.USERS_PATH, 'userId')
 
         url = f'{settings.BASE_URL}/api/admin/users/{userid}'
         response = requests.delete(url,

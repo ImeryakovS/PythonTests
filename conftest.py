@@ -3,20 +3,21 @@ import shutil
 import os
 import logging
 
+import config.settings as settings
 from data.users_credentials import existing_credentials, low_access_credentials
 from helpers.cleanup import delete_user_by_login
 from services.api_users_service import ApiUsersService
 
 @pytest.fixture(scope="session", autouse=True)
 def create_users_jsons():
-    if not os.path.exists('./data/users.json'):
-        shutil.copy('./data/users.template.json', './data/users.json')
+    if not os.path.exists(settings.USERS_PATH):
+        shutil.copy('./data/users.template.json', settings.USERS_PATH)
     logging.info("Creating users.json")
 
 @pytest.fixture(scope="session",autouse=True)
 def create_dashboards_jsons():
-    if not os.path.exists('./data/dashboards.json'):
-        shutil.copy('./data/dashboards.template.json', './data/dashboards.json')
+    if not os.path.exists(settings.DASHBOARDS_PATH):
+        shutil.copy('./data/dashboards.template.json', settings.DASHBOARDS_PATH)
     logging.info("Creating dashboards.json")
 
 @pytest.fixture(scope="session",autouse=True)

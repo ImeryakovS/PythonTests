@@ -35,6 +35,4 @@ def assert_status_message(response, expected_status, expected_message):
 def extract_value_in_object(key):
     body = get_body_for_create_dashboard('get')
     key = body['dashboard'][key]
-
     return key
-

@@ -32,7 +32,7 @@ def retry(attempts):
                 except Exception as e:
                     retries += 1
                     logging.error(f'[{func.__name__}] is not working. Try attempt = {retries}. {e}')
-                    if retries > attempts:
+                    if retries == attempts:
                         logging.error(f'[{func.__name__}]: Unexpected error: {e}\n{traceback.format_exc()}')
                         raise e
         return wrapper

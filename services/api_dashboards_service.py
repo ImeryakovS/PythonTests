@@ -24,7 +24,7 @@ class ApiDashboardsService:
 
         folder_uid = response.json().get('uid')
 
-        write_value_in_json('./data/dashboards.json', folder_uid, 'folderUid')
+        write_value_in_json(settings.DASHBOARDS_PATH, folder_uid, 'folderUid')
 
         return response
 
@@ -35,7 +35,7 @@ class ApiDashboardsService:
         url = f'{settings.BASE_URL}/api/dashboards/db'
         headers = {'Content-Type': 'application/json'}
 
-        folder_uid = read_value_in_json('./data/dashboards.json', 'folderUid')
+        folder_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'folderUid')
 
         body = data.get_body_for_create_dashboard(folder_uid)
         response = requests.post(url,
@@ -46,14 +46,14 @@ class ApiDashboardsService:
 
         dashboard_uid = response.json().get('uid')
 
-        write_value_in_json('./data/dashboards.json', dashboard_uid, 'dashboardUid')
+        write_value_in_json(settings.DASHBOARDS_PATH, dashboard_uid, 'dashboardUid')
         return response
 
     @staticmethod
     @api_error_handler
     @retry(3)
     def get_dashboard():
-        dashboard_uid = read_value_in_json('./data/dashboards.json', 'dashboardUid')
+        dashboard_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'dashboardUid')
         url = f'{settings.BASE_URL}/api/dashboards/uid/{dashboard_uid}'
         headers = {'Content-Type': 'application/json'}
         logging.info(f'Get dashboard uid: {dashboard_uid}')
@@ -70,7 +70,7 @@ class ApiDashboardsService:
     @api_error_handler
     @retry(3)
     def get_dashboard_with_incorrect_auth():
-        dashboard_uid = read_value_in_json('./data/dashboards.json', 'dashboardUid')
+        dashboard_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'dashboardUid')
         url = f'{settings.BASE_URL}/api/dashboards/uid/{dashboard_uid}'
         headers = {'Content-Type': 'application/json'}
         logging.info(f'Get dashboard uid: {dashboard_uid}')
@@ -86,7 +86,7 @@ class ApiDashboardsService:
     @api_error_handler
     @retry(3)
     def get_dashboard_with_low_level_access():
-        dashboard_uid = read_value_in_json('./data/dashboards.json', 'dashboardUid')
+        dashboard_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'dashboardUid')
         url = f'{settings.BASE_URL}/api/dashboards/uid/{dashboard_uid}'
         headers = {'Content-Type': 'application/json'}
         logging.info(f'Get dashboard uid: {dashboard_uid}')
@@ -102,7 +102,7 @@ class ApiDashboardsService:
     @api_error_handler
     @retry(3)
     def get_404_dashboard():
-        dashboard_uid = read_value_in_json('./data/dashboards.json', 'dashboardUid')
+        dashboard_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'dashboardUid')
         dashboard_uid += '12'
         url = f'{settings.BASE_URL}/api/dashboards/uid/{dashboard_uid}'
         headers = {'Content-Type': 'application/json'}
@@ -119,7 +119,7 @@ class ApiDashboardsService:
     @api_error_handler
     @retry(3)
     def delete_dashboard():
-        dashboard_uid = read_value_in_json('./data/dashboards.json', 'dashboardUid')
+        dashboard_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'dashboardUid')
 
         url = f'{settings.BASE_URL}/api/dashboards/uid/{dashboard_uid}'
 
@@ -141,7 +141,7 @@ class ApiDashboardsService:
     @api_error_handler
     @retry(3)
     def delete_folder_for_dashboard():
-        folder_uid = read_value_in_json('./data/dashboards.json', 'folderUid')
+        folder_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'folderUid')
 
         url = f'{settings.BASE_URL}/api/folders/{folder_uid}'
 
