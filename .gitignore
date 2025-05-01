@@ -1,13 +1,3 @@
-/node_modules/
-# Allure folders
-
-/allure-report/
-/allure-results/
-
-#Cypress local folders with files
-cypress/fixtures/
-cypress/screenshots/
-cypress/videos/
 # Script summarize for prject
 /python_summary/
 
