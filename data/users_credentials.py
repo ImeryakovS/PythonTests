@@ -21,3 +21,7 @@ low_access_credentials = {
     'login' : 'LowAccess',
     'password' : 'test'
 }
+
+change_password = {
+    "password" : "testPassword"
+}

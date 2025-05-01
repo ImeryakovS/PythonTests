@@ -5,6 +5,8 @@ from requests import Response
 import logging
 
 import config.settings as settings
+
+from data.users_credentials import existing_credentials, change_password
 from helpers.decorators import api_error_handler, retry
 from services.utils import write_value_in_json, read_value_in_json
 
@@ -36,17 +38,14 @@ class ApiUsersService:
     def find_user_by_login(login: str) -> int:
         url = f'{settings.BASE_URL}/api/users/lookup?loginOrEmail={login}'
         headers = {'Content-Type': 'application/json'}
-        try:
-            response = requests.get(url,
-                                    auth=settings.BASIC_AUTH,
-                                    headers=headers,
-                                    timeout = 10)
-            logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+        response = requests.get(url,
+                                auth=settings.BASIC_AUTH,
+                                headers=headers,
+                                timeout = 10)
+        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
 
-            user_id = response.json().get('id')
-            return user_id
-        except Exception as e:
-            logging.error(f'Error: {e}')
+        user_id = response.json().get('id')
+        return user_id
 
     @staticmethod
     @api_error_handler
@@ -76,6 +75,24 @@ class ApiUsersService:
 
         response = requests.post(url,
                                  auth=settings.BASIC_AUTH,
+                                 headers=headers,
+                                 timeout = 10)
+        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+
+        return response
+
+    @staticmethod
+    @api_error_handler
+    @retry(3)
+    def change_user_password():
+        userid = read_value_in_json(settings.USERS_PATH, 'userId')
+
+        url = f'{settings.BASE_URL}/api/admin/users/{userid}/password'
+        headers = {'Content-Type': 'application/json'}
+
+        response = requests.put(url,
+                                 auth=settings.BASIC_AUTH,
+                                 json = change_password,
                                  headers=headers,
                                  timeout = 10)
         logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
