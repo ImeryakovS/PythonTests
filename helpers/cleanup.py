@@ -1,7 +1,7 @@
 import inspect
 import logging
 
-from PythonTests.services.api_users_service import ApiUsersService
+from services.api_users_service import ApiUsersService
 
 def delete_user_by_login(dictionary):
     user_id = ApiUsersService.find_user_by_login(dictionary['login'])

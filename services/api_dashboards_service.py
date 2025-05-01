@@ -1,10 +1,10 @@
 import requests
-import PythonTests.config.settings as settings
-import PythonTests.data.dashboards_data as data
+import config.settings as settings
+import data.dashboards_data as data
 import logging
 
-from PythonTests.helpers.decorators import api_error_handler, retry
-from PythonTests.services.utils import write_value_in_json, read_value_in_json, extract_value_in_object
+from helpers.decorators import api_error_handler, retry
+from services.utils import write_value_in_json, read_value_in_json, extract_value_in_object
 
 
 class ApiDashboardsService:

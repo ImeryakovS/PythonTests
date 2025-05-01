@@ -3,9 +3,9 @@ import shutil
 import os
 import logging
 
-from PythonTests.data.users_credentials import existing_credentials, low_access_credentials
-from PythonTests.helpers.cleanup import delete_user_by_login
-from PythonTests.services.api_users_service import ApiUsersService
+from data.users_credentials import existing_credentials, low_access_credentials
+from helpers.cleanup import delete_user_by_login
+from services.api_users_service import ApiUsersService
 
 @pytest.fixture(scope="session", autouse=True)
 def create_users_jsons():

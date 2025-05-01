@@ -1,6 +1,6 @@
 import pytest
 
-from PythonTests.services.api_dashboards_service import ApiDashboardsService
+from services.api_dashboards_service import ApiDashboardsService
 
 @pytest.mark.PositiveApi
 def test_create_folder_for_dashboard():

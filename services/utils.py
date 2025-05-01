@@ -2,7 +2,7 @@ import json
 import logging
 import inspect
 
-from PythonTests.data.dashboards_data import get_body_for_create_dashboard
+from data.dashboards_data import get_body_for_create_dashboard
 
 
 def write_value_in_json(file_path, saved_value, json_value):

@@ -4,9 +4,9 @@ import requests
 from requests import Response
 import logging
 
-import PythonTests.config.settings as settings
-from PythonTests.helpers.decorators import api_error_handler, retry
-from PythonTests.services.utils import write_value_in_json, read_value_in_json
+import config.settings as settings
+from helpers.decorators import api_error_handler, retry
+from services.utils import write_value_in_json, read_value_in_json
 
 class ApiUsersService:
 
