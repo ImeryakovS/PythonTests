@@ -18,5 +18,5 @@ venv/
 
 #JSONs
 
-PythonTests/data/dashboards.json
-PythonTests/data/users.json
+/data/dashboards.json
+/data/users.json

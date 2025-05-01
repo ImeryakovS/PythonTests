@@ -21,13 +21,25 @@ def create_dashboards_jsons():
 
 @pytest.fixture(scope="session",autouse=True)
 def create_low_access_user():
-    ApiUsersService.create_api_user(low_access_credentials)
-    logging.info("Creating Low Access User")
+    try:
+        response = ApiUsersService.create_api_user(low_access_credentials)
+        if response.status_code != 200:
+            pytest.exit(f"Failed to create LowAccessUser with response code - {response.status_code}")
+        logging.info("Creating Low Access User")
+    except Exception as e:
+        logging.critical(f"Exception during LowAccessUser creation: {e}")
+        pytest.exit(f"Critical error in fixture: stopping test execution")
 
 @pytest.fixture(scope="session",autouse=True)
 def create_existing_user():
-    ApiUsersService.create_api_user(existing_credentials)
-    logging.info("Creating Existing User")
+    try:
+        response = ApiUsersService.create_api_user(existing_credentials)
+        if response.status_code != 200:
+            pytest.exit(f"Failed to create ExistingUser with response code - {response.status_code}")
+        logging.info("Creating Existing User")
+    except Exception as e:
+        logging.critical(f"Exception during ExistingUser creation: {e}")
+        pytest.exit(f"Critical error in fixture: stopping test execution")
 
 def pytest_sessionfinish(session, exitstatus):
     delete_user_by_login(existing_credentials)
