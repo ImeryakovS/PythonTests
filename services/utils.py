@@ -1,11 +1,18 @@
 import json
 import logging
 import inspect
+import os
+import shutil
 
+from config import settings
 from data.dashboards_data import get_body_for_create_dashboard
 
 
 def write_value_in_json(file_path, saved_value, json_value):
+    if not os.path.exists(file_path):
+        logging.warning(f"⚠️ {file_path} not found, creating from template")
+    shutil.copy(settings.USERS_TEMPLATE_PATH, file_path)
+
     with open(file_path, 'r') as file:
         json_file = json.load(file)
 
