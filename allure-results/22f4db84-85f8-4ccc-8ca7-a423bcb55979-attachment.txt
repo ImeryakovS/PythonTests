@@ -1,0 +1,2 @@
+[32mINFO    [0m root:api_users_service.py:26 Method: create_api_user: Status - 412, Body - {"message":"User with email 'SergeySergey@test.ru' or username 'SergeySergey' already exists"}
+[32mINFO    [0m root:api_users_service.py:32 User None is existing.

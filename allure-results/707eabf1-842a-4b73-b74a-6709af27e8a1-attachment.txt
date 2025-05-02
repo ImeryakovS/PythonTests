@@ -1,0 +1,11 @@
+[32mINFO    [0m root:conftest.py:25 Creating dashboards.json
+[32mINFO    [0m root:api_users_service.py:26 Method: create_api_user: Status - 200, Body - {"id":691,"uid":"bekonof7t63ggf","message":"User created"}
+[32mINFO    [0m root:utils.py:16 Function: write_value_in_json, userId: 691
+[32mINFO    [0m root:conftest.py:46 Creating Existing User
+[32mINFO    [0m root:api_users_service.py:26 Method: create_api_user: Status - 200, Body - {"id":692,"uid":"aekonofbf0tfke","message":"User created"}
+[32mINFO    [0m root:utils.py:16 Function: write_value_in_json, userId: 692
+[32mINFO    [0m root:conftest.py:34 Creating Low Access User
+[32mINFO    [0m root:conftest.py:18 Creating users.json
+[32mINFO    [0m root:utils.py:27 Function: read_value_in_json, dashboardUid: fekonbowxu70gf
+[32mINFO    [0m root:api_dashboards_service.py:76 Get dashboard uid: fekonbowxu70gf
+[32mINFO    [0m root:api_dashboards_service.py:82 Get status code: 401

@@ -1,0 +1,2 @@
+[32mINFO    [0m root:utils.py:27 Function: read_value_in_json, userId: 690
+[32mINFO    [0m root:api_users_service.py:98 Method: change_user_password: Status - 200, Body - {"message":"User password updated"}

@@ -1,0 +1,2 @@
+[32mINFO    [0m root:utils.py:27 Function: read_value_in_json, userId: 684
+[32mINFO    [0m root:api_users_service.py:61 Method: delete_api_user: Status - 200, Body - {"message":"User deleted"}
