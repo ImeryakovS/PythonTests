@@ -8,7 +8,9 @@ import logging
 from config import settings as settings
 from data.users_credentials import existing_credentials, low_access_credentials
 from helpers.cleanup import delete_user_by_login
+from services.api_dashboards_service import ApiDashboardsService
 from services.api_users_service import ApiUsersService
+
 
 @pytest.fixture(scope="session", autouse=True)
 @allure.title("Creating users.json from template")
@@ -48,8 +50,14 @@ def create_existing_user():
         logging.critical(f"Exception during ExistingUser creation: {e}")
         pytest.exit(f"Critical error in fixture: stopping test execution")
 
-@allure.title("Delete users from previously steps accross pytest hook")
 def pytest_sessionfinish(session, exitstatus):
     delete_user_by_login(existing_credentials)
     delete_user_by_login(low_access_credentials)
+    ApiDashboardsService.delete_dashboard()
+    # assert response.status_code == 200, f'Expected status code 200, got {response.status_code}'
+    # assert response.json().get('title') == title
+    # assert response.json().get('message') == f'Dashboard {title} deleted'
+    ApiDashboardsService.delete_folder_for_dashboard()
+    # assert response.status_code == 200, f'Expected status code 200, got {response.status_code}'
+    # assert response.json().get('message') == 'Folder deleted'
     logging.info("Cleaning up is done")

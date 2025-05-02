@@ -24,7 +24,7 @@ class ApiDashboardsService:
 
         folder_uid = response.json().get('uid')
 
-        write_value_in_json(settings.DASHBOARDS_PATH, folder_uid, 'folderUid')
+        write_value_in_json(settings.DASHBOARDS_TEMPLATE_PATH,settings.DASHBOARDS_PATH, folder_uid, 'folderUid')
 
         return response
 
@@ -45,8 +45,7 @@ class ApiDashboardsService:
                                  timeout = 10)
 
         dashboard_uid = response.json().get('uid')
-
-        write_value_in_json(settings.DASHBOARDS_PATH, dashboard_uid, 'dashboardUid')
+        write_value_in_json(settings.DASHBOARDS_TEMPLATE_PATH,settings.DASHBOARDS_PATH, dashboard_uid, 'dashboardUid')
         return response
 
     @staticmethod
@@ -87,6 +86,7 @@ class ApiDashboardsService:
     @retry(3)
     def get_dashboard_with_low_level_access():
         dashboard_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'dashboardUid')
+        logging.warning(f'test 2 {dashboard_uid}')
         url = f'{settings.BASE_URL}/api/dashboards/uid/{dashboard_uid}'
         headers = {'Content-Type': 'application/json'}
         logging.info(f'Get dashboard uid: {dashboard_uid}')
@@ -142,7 +142,7 @@ class ApiDashboardsService:
     @retry(3)
     def delete_folder_for_dashboard():
         folder_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'folderUid')
-
+        logging.warning('test 2 - folder_uid: {}'.format(folder_uid))
         url = f'{settings.BASE_URL}/api/folders/{folder_uid}'
 
         headers = {'Content-Type': 'application/json'}

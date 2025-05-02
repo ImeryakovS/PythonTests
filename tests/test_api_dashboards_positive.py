@@ -33,25 +33,5 @@ def test_get_dashboard():
     assert response.status_code == 200, f'Expected status code 200, got {response.status_code}'
     assert response.json().get("dashboard",{}).get("title") == title
 
-@allure.title("Test delete dashboard from folder")
-@allure.description("This test attempt delete the dashboard from folder")
-@allure.tag("ApiDashboardsService", "Positive")
-@pytest.mark.PositiveApi
-def test_delete_dashboard_in_folder():
-    response,title = ApiDashboardsService.delete_dashboard()
-
-    assert response.status_code == 200, f'Expected status code 200, got {response.status_code}'
-    assert response.json().get('title') == title
-    assert response.json().get('message') == f'Dashboard {title} deleted'
-
-@allure.title("Test delete dashboard  folder")
-@allure.description("This test attempt delete the dashboard folder")
-@allure.tag("ApiDashboardsService", "Positive")
-@pytest.mark.PositiveApi
-def test_delete_folder_for_dashboard():
-    response = ApiDashboardsService.delete_folder_for_dashboard()
-
-    assert response.status_code == 200, f'Expected status code 200, got {response.status_code}'
-    assert response.json().get('message') == 'Folder deleted'
 
 

@@ -26,7 +26,7 @@ class ApiUsersService:
         logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
         user_id = response.json().get('id')
         if response.status_code == 200:
-            write_value_in_json(settings.USERS_PATH, user_id,'userId')
+            write_value_in_json(settings.USERS_TEMPLATE_PATH,settings.USERS_PATH, user_id,'userId')
             return response
         else:
             logging.info(f'User {user_id} is existing.')

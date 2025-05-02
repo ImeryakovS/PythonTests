@@ -6,6 +6,7 @@ DATA_DIR = os.path.join(BASE_DIR, 'data')
 
 USERS_PATH = os.path.join(DATA_DIR, 'users.json')
 DASHBOARDS_PATH = os.path.join(DATA_DIR, 'dashboards.json')
+
 USERS_TEMPLATE_PATH = os.path.join(DATA_DIR, 'users.template.json')
 DASHBOARDS_TEMPLATE_PATH = os.path.join(DATA_DIR, 'dashboards.template.json')
 
