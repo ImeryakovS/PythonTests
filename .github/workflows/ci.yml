@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.13.1"]
+        python-version: ["3.11"]
     services:
       grafana:
         image: grafana/grafana:latest
@@ -72,7 +72,7 @@ jobs:
       # Generate Allure reports
       - name: Generate Allure report
         run:  allure generate allure-results --clean -o allure-report
-        
+
       # Upload report as artifact
       - name: Upload Allure report
         uses: actions/upload-artifact@v3
