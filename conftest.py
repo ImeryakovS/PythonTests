@@ -27,6 +27,21 @@ def create_dashboards_jsons():
     logging.info("Creating dashboards.json")
 
 @pytest.fixture(scope="session",autouse=True)
+@allure.title("Creating folder for dashboard")
+def _create_folder_for_dashboard():
+    response = ApiDashboardsService.create_folder()
+
+    assert response.status_code == 200, f'Expected status code 200, got {response.status_code}'
+    assert response.json().get('title') == 'Folder for API Test'
+
+@pytest.fixture(scope="session",autouse=True)
+@allure.title("Creating dashboard")
+def _create_dashboard(_create_folder_for_dashboard):
+    response = ApiDashboardsService.create_dashboard()
+    assert response.status_code == 200, f'Expected status code 200, got {response.status_code}'
+
+
+@pytest.fixture(scope="session",autouse=True)
 @allure.title("Creating user with low access for tests")
 def create_low_access_user():
     try:

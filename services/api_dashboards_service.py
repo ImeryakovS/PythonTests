@@ -86,7 +86,7 @@ class ApiDashboardsService:
     @retry(3)
     def get_dashboard_with_low_level_access():
         dashboard_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'dashboardUid')
-        logging.warning(f'test 2 {dashboard_uid}')
+
         url = f'{settings.BASE_URL}/api/dashboards/uid/{dashboard_uid}'
         headers = {'Content-Type': 'application/json'}
         logging.info(f'Get dashboard uid: {dashboard_uid}')
