@@ -1,0 +1,69 @@
+name: Run PyTests
+on:
+  workflow_dispatch:
+
+# Setup Grafana from Docker
+jobs:
+  build:
+    name: Run tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.6", "3.7", "3.8", "3.9"]
+    services:
+      grafana:
+        image: grafana/grafana:latest
+        ports:
+          - 3000:3000
+        options: >-
+          --env GF_SECURITY_ADMIN_PASSWORD=admin
+          --env GF_SECURITY_ADMIN_USER=admin
+
+    steps:
+      # Check code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Setup Python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Setup dependencies
+      - name: Install dependencies
+        run: pip install pytest pytest-md pytest-emoji
+        uses: pavelzw/pytest-action@v2
+        with:
+          emoji: false
+          verbose: false
+          job-summary: true
+
+      # Setup requests
+      - name: Install requests
+        run: pip install requests
+
+      # Setup allure
+      - name: Install Allure
+        run: pip install allure-pytest
+
+      # Wait grafana starts
+      - name: Wait for Grafana
+        run: |
+          for i in {1..30}; do
+            if curl -s http://localhost:3000 | grep "Found"; then
+              echo "Grafana is ready!"
+              exit 0
+            fi
+            echo "Waiting for Grafana to start..."
+            sleep 2
+          done
+          echo "Grafana did not start in time!" && exit 1
+
+      # Run PyTest with allure
+      - name: Run PyTest tests with Allure
+        run:  python -m pytest --alluredir allure-results
+
+      # Generate Allure reports
+      - name: Generate Allure report
+        run:  allure serve allure-results
