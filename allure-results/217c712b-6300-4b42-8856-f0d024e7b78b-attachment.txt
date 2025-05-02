@@ -1,1 +1,0 @@
-[32mINFO    [0m root:utils.py:16 Function: write_value_in_json, folderUid: aekonoflh43k0e

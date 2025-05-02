@@ -1,2 +1,0 @@
-[32mINFO    [0m root:utils.py:27 Function: read_value_in_json, dashboardUid: fekonofpwxlogb
-[32mINFO    [0m root:api_dashboards_service.py:59 Get dashboard uid: fekonofpwxlogb

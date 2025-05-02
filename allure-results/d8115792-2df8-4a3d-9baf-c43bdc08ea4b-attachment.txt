@@ -1,1 +1,0 @@
-[32mINFO    [0m root:utils.py:27 Function: read_value_in_json, folderUid: fekonbosx02yoa
