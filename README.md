@@ -6,3 +6,7 @@ Steps for install:
 2. Activate virtual environment: `venv\Scripts'activate`
 3. Install pytest: `pip install pytest`
 4. Install dependencies: `pip install -r requirements.txt`
+
+> The repository is a work in progress.
+> A well-structured README, along with CI/CD integration and Allure reporting, will be added soon.
+
