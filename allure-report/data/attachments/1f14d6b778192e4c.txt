@@ -1,0 +1,1 @@
+[32mINFO    [0m root:api_users_service.py:99 Method: create_bad_request: Status - 400, Body - {"message":"bad request data"}

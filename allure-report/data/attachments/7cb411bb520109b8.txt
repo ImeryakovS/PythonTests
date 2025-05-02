@@ -1,0 +1,17 @@
+[33mWARNING [0m root:utils.py:13 ⚠️ /home/runner/work/PythonTests/PythonTests/data/dashboards.json not found, creating from template
+[32mINFO    [0m root:utils.py:23 Function: write_value_in_json, folderUid: dekp29e4debr4c
+[32mINFO    [0m root:utils.py:34 Function: read_value_in_json, folderUid: dekp29e4debr4c
+[32mINFO    [0m root:utils.py:23 Function: write_value_in_json, dashboardUid: dekp29e68tl34f
+[32mINFO    [0m root:conftest.py:27 Creating dashboards.json
+[32mINFO    [0m root:api_users_service.py:26 Method: create_api_user: Status - 200, Body - {"id":2,"uid":"bekp29e848uf4f","message":"User created"}
+[33mWARNING [0m root:utils.py:13 ⚠️ /home/runner/work/PythonTests/PythonTests/data/users.json not found, creating from template
+[32mINFO    [0m root:utils.py:23 Function: write_value_in_json, userId: 2
+[32mINFO    [0m root:conftest.py:67 Creating Existing User
+[32mINFO    [0m root:api_users_service.py:26 Method: create_api_user: Status - 200, Body - {"id":3,"uid":"aekp29e9877y8b","message":"User created"}
+[32mINFO    [0m root:utils.py:23 Function: write_value_in_json, userId: 3
+[32mINFO    [0m root:api_users_service.py:80 Method: delete_user_from_org: Status - 200, Body - {"message":"User deleted"}
+[32mINFO    [0m root:conftest.py:54 Creating Low Access User
+[32mINFO    [0m root:conftest.py:20 Creating users.json
+[32mINFO    [0m root:utils.py:34 Function: read_value_in_json, dashboardUid: dekp29e68tl34f
+[32mINFO    [0m root:api_dashboards_service.py:75 Get dashboard uid: dekp29e68tl34f
+[32mINFO    [0m root:api_dashboards_service.py:81 Get status code: 401
