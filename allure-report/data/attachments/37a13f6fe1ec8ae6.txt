@@ -1,2 +1,0 @@
-[32mINFO    [0m root:utils.py:34 Function: read_value_in_json, dashboardUid: dekp29e68tl34f
-[32mINFO    [0m root:api_dashboards_service.py:58 Get dashboard uid: dekp29e68tl34f
