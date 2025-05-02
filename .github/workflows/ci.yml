@@ -38,7 +38,17 @@ jobs:
       - name: Install requests
         run: pip install requests
 
-      # Setup allure
+      # Setup Allure
+      - name: Install Allure CLI
+        run: |
+          sudo apt update
+          sudo apt install -y default-jre
+          wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz
+          tar -zxvf allure-2.27.0.tgz
+          sudo mv allure-2.27.0 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+
+      # Setup allure pytest
       - name: Install Allure
         run: pip install allure-pytest
 
@@ -61,4 +71,11 @@ jobs:
 
       # Generate Allure reports
       - name: Generate Allure report
-        run:  allure serve allure-results
+        run:  allure generate allure-results --clean -o allure-report
+        
+      # Upload report as artifact
+      - name: Upload Allure report
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report
