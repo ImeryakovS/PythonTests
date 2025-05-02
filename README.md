@@ -9,4 +9,3 @@ Steps for install:
 
 > The repository is a work in progress.
 > A well-structured README, along with CI/CD integration and Allure reporting, will be added soon.
-

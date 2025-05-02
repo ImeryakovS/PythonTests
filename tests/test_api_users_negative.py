@@ -1,10 +1,11 @@
 import pytest
+import allure
 
-from data.users_credentials import credentials, existing_credentials
+from data.users_credentials import existing_credentials
 from services.api_users_service import ApiUsersService
 from services.utils import assert_status_message
 
-
+@allure.title("Test api users negative")
 @pytest.mark.NegativeApi
 def test_create_existing_user():
     response_existing = ApiUsersService.create_api_user(existing_credentials)
@@ -12,6 +13,7 @@ def test_create_existing_user():
     message_existing = response_existing.json().get('message')
     assert_status_message(response_existing, 412, message_existing)
 
+@allure.title("Test api users negative")
 @pytest.mark.NegativeApi
 def test_create_bad_request():
     response = ApiUsersService.create_bad_request()
