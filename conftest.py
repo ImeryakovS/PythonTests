@@ -4,24 +4,31 @@ import shutil
 import os
 import logging
 
-import config.settings as settings
 from data.users_credentials import existing_credentials, low_access_credentials
 from helpers.cleanup import delete_user_by_login
 from services.api_users_service import ApiUsersService
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, 'data')
+
+USERS_TEMPLATE = os.path.join(DATA_DIR, 'users.template.json')
+USERS_JSON = os.path.join(DATA_DIR, 'users.json')
+
+DASHBOARD_TEMPLATE = os.path.join(DATA_DIR, 'dashboard.template.json')
+DASHBOARD_JSON = os.path.join(DATA_DIR, 'dashboard.json')
 
 @pytest.fixture(scope="session", autouse=True)
 @allure.title("Creating users.json from template")
 def create_users_jsons():
-    if not os.path.exists(settings.USERS_PATH):
-        shutil.copy('./data/users.template.json', settings.USERS_PATH)
+    if not os.path.exists(USERS_JSON):
+        shutil.copy(USERS_TEMPLATE, USERS_JSON)
     logging.info("Creating users.json")
 
 @pytest.fixture(scope="session",autouse=True)
 @allure.title("Creating dashboards.json from template")
 def create_dashboards_jsons():
-    if not os.path.exists(settings.DASHBOARDS_PATH):
-        shutil.copy('./data/dashboards.template.json', settings.DASHBOARDS_PATH)
+    if not os.path.exists(DASHBOARD_JSON):
+        shutil.copy(DASHBOARD_TEMPLATE, DASHBOARD_JSON)
     logging.info("Creating dashboards.json")
 
 @pytest.fixture(scope="session",autouse=True)
