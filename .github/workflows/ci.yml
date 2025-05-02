@@ -1,5 +1,5 @@
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 name: Run PyTests
@@ -77,16 +77,27 @@ jobs:
       - name: Generate Allure report
         run:  allure generate allure-results --clean -o allure-report
 
-      # Create zip for allure reports
-      - name: Zip Allure report
+      - name: Deploy Allure report to GitHub Pages
+        if: success()
         run: |
-          zip -r allure-report.zip allure-report
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
 
-      - name: Upload Allure to build output (as workaround)
-        run: |
-          mkdir -p artifacts
-          mv allure-report.zip artifacts/
+          if git ls-remote --exit-code --heads https://github.com/${{ github.repository }} gh-pages; then
+            git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+          else
+            git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+            cd gh-pages
+            git checkout --orphan gh-pages
+            git rm -rf .
+            cd ..
+          fi
 
-      # Create link for zip
-      - name: Show path to downloaded Allure report
-        run: echo "✅ Allure report saved at ./artifacts/allure-report.zip"
+          cd gh-pages
+          rm -rf allure-report
+          cp -r ../allure-report ./allure-report
+          touch .nojekyll
+
+          git add .
+          git commit -m "🚀 Update Allure report"
+          git push origin gh-pages
