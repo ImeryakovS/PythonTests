@@ -24,8 +24,8 @@ Both positive and negative API scenarios are covered, with active use of decorat
 
 - Global fixtures are located in conftest.py.
 
-### How to Run Tests Locally
-Instructions for local test execution are provided inside the project (e.g. README.md or comments). The framework supports easy local execution via Pytest.
+## How to Run Tests Locally
+
 
 ### Requirements
 
@@ -37,8 +37,7 @@ Instructions for local test execution are provided inside the project (e.g. READ
 1. Install Python (from scoop): `scoop install python`
 2. Install virtual environment: `python -m venv venv`
 3. Activate venv: `venv\Scripts\activate` (windows, cmd)
-4. Install pytest: `pip install pytest`
-5. Install dependencies: `pip install -r requirements.txt`
+4. Install dependencies: `pip install -r requirements.txt`
 
 ### How to run the tests:
 
@@ -55,9 +54,4 @@ During the CI/CD run, an Allure report is generated and automatically published 
 Reports link - https://imeryakovs.github.io/PythonTests/allure-report/index.html 
 
 All CI settings are located in [ci.yml](./.github/workflows/ci.yml)
-### Python tests
 
-
-
-> The repository is a work in progress.
-> A well-structured README, along with CI/CD integration and Allure reporting, will be added soon.
