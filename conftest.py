@@ -48,10 +48,14 @@ def create_low_access_user():
         response = ApiUsersService.create_api_user(low_access_credentials)
         if response.status_code != 200:
             pytest.exit(f"Failed to create LowAccessUser with response code - {response.status_code}")
+
+        userid = response.json().get('id')
+        ApiUsersService.delete_user_from_org(userid)
         logging.info("Creating Low Access User")
     except Exception as e:
         logging.critical(f"Exception during LowAccessUser creation: {e}")
         pytest.exit(f"Critical error in fixture: stopping test execution")
+
 
 @pytest.fixture(scope="session",autouse=True)
 @allure.title("Creating existing user for tests")
