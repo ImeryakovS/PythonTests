@@ -73,10 +73,19 @@ jobs:
       - name: Run PyTest tests with Allure
         run:  python -m pytest --alluredir allure-results
 
+      # Restore history from previous report
+
+      - name: Restore history from previous report
+        if: always()
+        run: |
+          if [ -d gh-pages/allure-report/history ]; then
+            cp -r gh-pages/allure-report/history allure-results/history
+          fi
+
       # Generate Allure reports
       - name: Generate Allure report
-        run:  allure generate allure-results --clean -o allure-report
         if: always()
+        run:  allure generate allure-results -o allure-report
         continue-on-error: true
 
       - name: Deploy Allure report to GitHub Pages
