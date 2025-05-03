@@ -5,7 +5,9 @@ import config.settings as settings
 import logging
 
 from data.organizations_data import test_organizations_body, add_in_organizations_body
+from data.users_credentials import organizations_user
 from helpers.decorators import api_error_handler, retry
+from services.api_users_service import ApiUsersService
 from services.utils import write_value_in_json, read_value_in_json, extract_value_in_object
 
 
@@ -79,6 +81,25 @@ class ApiOrganizationsService:
         logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
 
         return response, org_id, name_org
+
+    @staticmethod
+    @api_error_handler
+    @retry(3)
+    def update_user_in_org():
+        org_id = read_value_in_json(settings.ORGANIZATIONS_PATH, 'orgId')
+        user_login = organizations_user['login']
+        user_id = ApiUsersService.find_user_by_login(user_login)
+        body = {"role": "Admin"}
+
+        url = f'{settings.BASE_URL}/api/orgs/{org_id}/users/{user_id}'
+
+        response = requests.patch(url,
+                                auth=settings.BASIC_AUTH,
+                                json=body,
+                                timeout = 10)
+        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+
+        return response
 
     @staticmethod
     @api_error_handler
