@@ -1,0 +1,2 @@
+[32mINFO    [0m root:api_users_service.py:26 Method: create_api_user: Status - 200, Body - {"id":4,"uid":"feksf6npzf5dsd","message":"User created"}
+[32mINFO    [0m root:utils.py:23 Function: write_value_in_json, userId: 4
