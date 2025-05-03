@@ -68,6 +68,21 @@ class ApiOrganizationsService:
     @staticmethod
     @api_error_handler
     @retry(3)
+    def get_organizations_by_id():
+        org_id = read_value_in_json(settings.ORGANIZATIONS_PATH, 'orgId')
+        name_org = test_organizations_body['name']
+        url = f'{settings.BASE_URL}/api/orgs/{org_id}'
+
+        response = requests.get(url,
+                                   auth=settings.BASIC_AUTH,
+                                   timeout = 10)
+        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+
+        return response, org_id, name_org
+
+    @staticmethod
+    @api_error_handler
+    @retry(3)
     def delete_organization():
         org_id = read_value_in_json(settings.ORGANIZATIONS_PATH, 'orgId')
 
