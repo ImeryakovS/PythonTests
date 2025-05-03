@@ -69,6 +69,12 @@ jobs:
           done
           echo "Grafana did not start in time!" && exit 1
 
+      # Clone allure history for allure
+      - name: Clone gh-pages branch
+        if: always()
+        run: |
+          git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+
       # Run PyTest with allure
       - name: Run PyTest tests with Allure
         run:  python -m pytest --alluredir allure-results
@@ -79,6 +85,7 @@ jobs:
         if: always()
         run: |
           if [ -d gh-pages/allure-report/history ]; then
+            mkdir -p allure-results/history
             cp -r gh-pages/allure-report/history allure-results/history
           fi
 
