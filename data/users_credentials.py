@@ -22,6 +22,13 @@ low_access_credentials = {
     'password' : 'test'
 }
 
+organizations_user = {
+    'name' : 'Organization',
+    'email' : 'Organization@test.ru',
+    'login' : 'Organization',
+    'password' : 'test'
+}
+
 change_password = {
     "password" : "testPassword"
 }

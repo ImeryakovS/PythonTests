@@ -20,6 +20,7 @@ venv/
 
 /data/dashboards.json
 /data/users.json
+/data/organizations.json
 
 #Allure 
 

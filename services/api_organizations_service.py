@@ -2,15 +2,14 @@ import inspect
 
 import requests
 import config.settings as settings
-import data.dashboards_data as data
 import logging
 
-from data.organizations import test_organizations, add_in_organizations_body
+from data.organizations_data import test_organizations_body, add_in_organizations_body
 from helpers.decorators import api_error_handler, retry
 from services.utils import write_value_in_json, read_value_in_json, extract_value_in_object
 
 
-class APIOrganizationsService:
+class ApiOrganizationsService:
 
     @staticmethod
     @api_error_handler
@@ -18,7 +17,7 @@ class APIOrganizationsService:
     def create_new_organization():
         url = f'{settings.BASE_URL}/api/orgs'
         headers = {'Content-Type': 'application/json'}
-        body = test_organizations
+        body = test_organizations_body
         response = requests.post(url,
                                  auth=settings.BASIC_AUTH,
                                  json = body,
@@ -26,13 +25,15 @@ class APIOrganizationsService:
                                  timeout = 10)
 
         org_id = response.json().get('orgId')
+        write_value_in_json(settings.ORGANIZATIONS_TEMPLATE_PATH,settings.ORGANIZATIONS_PATH,org_id,'orgId')
 
-        return org_id
+        return response,org_id
 
     @staticmethod
     @api_error_handler
     @retry(3)
-    def add_user_in_organization(org_id):
+    def add_user_in_organization():
+        org_id = read_value_in_json(settings.ORGANIZATIONS_PATH,'orgId')
         url = f'{settings.BASE_URL}/api/orgs/{org_id}/users'
         headers = {'Content-Type': 'application/json'}
         body = add_in_organizations_body
@@ -41,7 +42,8 @@ class APIOrganizationsService:
                                  json = body,
                                  headers=headers,
                                  timeout = 10)
-        return response
+        user_id = response.json().get('userId')
+        return response, user_id
 
     @staticmethod
     @api_error_handler
@@ -49,9 +51,9 @@ class APIOrganizationsService:
     def delete_user_from_org(orgid=1, userid=None):
         if userid is None:
             userid = read_value_in_json(settings.USERS_PATH, 'userId')
-        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: current user: {userid}")
+
         url = f'{settings.BASE_URL}/api/orgs/{orgid}/users/{userid}'
-        logging.info(f'Deleting user {userid} from org {orgid}: url = {url}')
+
         response = requests.delete(url,
                                    auth=settings.BASIC_AUTH,
                                    timeout = 10)
@@ -63,3 +65,21 @@ class APIOrganizationsService:
 
         return response
 
+    @staticmethod
+    @api_error_handler
+    @retry(3)
+    def delete_organization():
+        org_id = read_value_in_json(settings.ORGANIZATIONS_PATH, 'orgId')
+
+        url = f'{settings.BASE_URL}/api/orgs/{org_id}'
+
+        response = requests.delete(url,
+                                   auth=settings.BASIC_AUTH,
+                                   timeout = 10)
+        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+
+        if response.status_code == 404:
+            print(f'User {org_id} already deleted from org. Skipping deletion')
+            return
+
+        return response

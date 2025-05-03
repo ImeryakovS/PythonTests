@@ -5,10 +5,10 @@ import os
 import logging
 
 from config import settings as settings
-from data.users_credentials import existing_credentials, low_access_credentials
+from data.users_credentials import existing_credentials, low_access_credentials, organizations_user
 from helpers.cleanup import delete_user_by_login
 from services.api_dashboards_service import ApiDashboardsService
-from services.api_organizations_service import APIOrganizationsService
+from services.api_organizations_service import ApiOrganizationsService
 from services.api_users_service import ApiUsersService
 
 
@@ -29,6 +29,22 @@ def create_dashboards_jsons():
     if not os.path.exists(settings.DASHBOARDS_PATH):
         shutil.copy(settings.DASHBOARDS_TEMPLATE_PATH, settings.DASHBOARDS_PATH)
     logging.info("Creating dashboards.json")
+
+@pytest.fixture(scope="session",autouse=True)
+@allure.title("Creating organizations.json from template")
+def create_dashboards_jsons():
+    if not os.path.exists(settings.ORGANIZATIONS_PATH):
+        shutil.copy(settings.ORGANIZATIONS_TEMPLATE_PATH, settings.ORGANIZATIONS_PATH)
+    logging.info("Creating organizations.json")
+
+@pytest.fixture(scope="session",autouse=True)
+@allure.title("Creating new organization")
+def create_new_organization():
+    response,org_id = ApiOrganizationsService.create_new_organization()
+
+    assert response.status_code == 200, f'Expected status code 200, got {response.status_code}'
+    assert response.json().get('orgId') == org_id
+    assert response.json().get('message') == 'Organization created'
 
 @pytest.fixture(scope="session",autouse=True)
 @allure.title("Creating folder for dashboard")
@@ -54,7 +70,7 @@ def create_low_access_user():
             pytest.exit(f"Failed to create LowAccessUser with response code - {response.status_code}")
 
         userid = response.json().get('id')
-        APIOrganizationsService.delete_user_from_org(userid = userid)
+        ApiOrganizationsService.delete_user_from_org(userid = userid)
         logging.info(f'User {userid} deleted from org')
 
         logging.info("Creating Low Access User")
@@ -62,6 +78,17 @@ def create_low_access_user():
         logging.critical(f"Exception during LowAccessUser creation: {e}")
         pytest.exit(f"Critical error in fixture: stopping test execution")
 
+@pytest.fixture(scope="session",autouse=True)
+@allure.title("Creating organizations_user for tests")
+def create_organizations_user():
+    try:
+        response = ApiUsersService.create_api_user(organizations_user)
+        if response.status_code != 200:
+            pytest.exit(f"Failed to create organizations_user with response code - {response.status_code}")
+        logging.info("Creating organizations_user")
+    except Exception as e:
+        logging.critical(f"Exception during organizations_user creation: {e}")
+        pytest.exit(f"Critical error in fixture: stopping test execution")
 
 @pytest.fixture(scope="session",autouse=True)
 @allure.title("Creating existing user for tests")
@@ -78,6 +105,8 @@ def create_existing_user():
 def pytest_sessionfinish(session, exitstatus):
     delete_user_by_login(existing_credentials)
     delete_user_by_login(low_access_credentials)
+    delete_user_by_login(organizations_user)
     ApiDashboardsService.delete_dashboard()
     ApiDashboardsService.delete_folder_for_dashboard()
+    ApiOrganizationsService.delete_organization()
     logging.info("Cleaning up is done")
