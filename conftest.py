@@ -8,6 +8,7 @@ from config import settings as settings
 from data.users_credentials import existing_credentials, low_access_credentials
 from helpers.cleanup import delete_user_by_login
 from services.api_dashboards_service import ApiDashboardsService
+from services.api_organizations_service import APIOrganizationsService
 from services.api_users_service import ApiUsersService
 
 
@@ -53,7 +54,9 @@ def create_low_access_user():
             pytest.exit(f"Failed to create LowAccessUser with response code - {response.status_code}")
 
         userid = response.json().get('id')
-        ApiUsersService.delete_user_from_org(userid)
+        APIOrganizationsService.delete_user_from_org(userid = userid)
+        logging.info(f'User {userid} deleted from org')
+
         logging.info("Creating Low Access User")
     except Exception as e:
         logging.critical(f"Exception during LowAccessUser creation: {e}")

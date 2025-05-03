@@ -69,25 +69,6 @@ class ApiUsersService:
     @staticmethod
     @api_error_handler
     @retry(3)
-    def delete_user_from_org(userid=None):
-        if userid is None:
-            userid = read_value_in_json(settings.USERS_PATH, 'userId')
-
-        url = f'{settings.BASE_URL}/api/org/users/{userid}'
-        response = requests.delete(url,
-                                   auth=settings.BASIC_AUTH,
-                                   timeout = 10)
-        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
-
-        if response.status_code == 404:
-            print(f'User {userid} already deleted from org. Skipping deletion')
-            return
-
-        return response
-
-    @staticmethod
-    @api_error_handler
-    @retry(3)
     def create_bad_request():
         url = f'{settings.BASE_URL}/api/admin/users'
         headers = {'Content-Type': 'application/json'}
