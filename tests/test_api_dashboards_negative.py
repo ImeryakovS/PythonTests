@@ -6,6 +6,7 @@ from services.api_dashboards_service import ApiDashboardsService
 @allure.title("Test get dashboard with incorrect data for auth")
 @allure.description("This test attempt get dashboard with incorrect data for auth")
 @allure.tag("ApiDashboardsService", "Negative")
+@allure.id("get_dashboard_with_incorrect_auth")
 @pytest.mark.NegativeApi
 def test_get_dashboard_with_incorrect_auth():
     response = ApiDashboardsService.get_dashboard_with_incorrect_auth()
@@ -14,6 +15,7 @@ def test_get_dashboard_with_incorrect_auth():
 @allure.title("Test get dashboard from user with low access in the system")
 @allure.description("This test attempt get dashboard from user with low access in the system")
 @allure.tag("ApiDashboardsService", "Negative")
+@allure.id("get_dashboard_with_low_level_access")
 @pytest.mark.NegativeDashboard
 def test_get_dashboard_with_low_level_access():
     response = ApiDashboardsService.get_dashboard_with_low_level_access()
@@ -22,6 +24,7 @@ def test_get_dashboard_with_low_level_access():
 @allure.title("Test get 404 dashboard")
 @allure.description("This test attempt get 404 dashboard")
 @allure.tag("ApiDashboardsService", "Negative")
+@allure.id("get_404_dashboard")
 @pytest.mark.NegativeApi
 def test_get_404_dashboard():
     response = ApiDashboardsService.get_404_dashboard()

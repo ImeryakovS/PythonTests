@@ -8,6 +8,7 @@ from services.utils import assert_status_message
 @allure.title("Test create existing user")
 @allure.description("This test attempt create user which was be created in positive group test")
 @allure.tag("APIUsersService", "Negative")
+@allure.id("create_existing_user")
 @pytest.mark.NegativeApi
 def test_create_existing_user():
     response_existing = ApiUsersService.create_api_user(existing_credentials)
@@ -18,6 +19,7 @@ def test_create_existing_user():
 @allure.title("Test create bad request")
 @allure.description("This test create request with error data for bad request")
 @allure.tag("APIUsersService", "Negative")
+@allure.id("create_bad_request")
 @pytest.mark.NegativeApi
 def test_create_bad_request():
     response = ApiUsersService.create_bad_request()

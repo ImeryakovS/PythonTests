@@ -6,6 +6,7 @@ from services.api_dashboards_service import ApiDashboardsService
 @allure.title("Test get dashboard in folder")
 @allure.description("This test attempt to get the dashboard in folder")
 @allure.tag("ApiDashboardsService", "Positive")
+@allure.id("get_dashboard")
 @pytest.mark.PositiveApi
 def test_get_dashboard():
     response, title = ApiDashboardsService.get_dashboard()
