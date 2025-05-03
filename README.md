@@ -12,22 +12,21 @@ Both positive and negative API scenarios are covered, with active use of decorat
 
 ### Project Structure:
 
-- config/ — settings.py contains configuration settings
+- `config/` — settings.py contains configuration settings
 
-- data/ — includes test artifacts required for execution. users.json and dashboards.json are generated automatically based on templates
+- `data/` — includes test artifacts required for execution. users.json, dashboards.json, organizations.json are generated automatically based on templates
 
-- helpers/ — contains decorators and utility functions for cleaning up test data via fixtures
+- `helpers/` — contains decorators and utility functions for cleaning up test data via fixtures
 
-- services/ — classes that group API methods by domain
+- `services/` — classes that group API methods by domain
 
-- tests/ — test scenarios
+- `tests/` — test scenarios
 
-- Global fixtures are located in conftest.py.
+- Global fixtures are located in `conftest.py`
 
 ## How to Run Tests Locally
 
-
-### Requirements
+### Requirements:
 
 1) Python 3.11
 2) Allure 2.32.0
@@ -38,6 +37,7 @@ Both positive and negative API scenarios are covered, with active use of decorat
 2. Install virtual environment: `python -m venv venv`
 3. Activate venv: `venv\Scripts\activate` (windows, cmd)
 4. Install dependencies: `pip install -r requirements.txt`
+5. Install requests module: `pip install requests`
 
 ### How to run the tests:
 
