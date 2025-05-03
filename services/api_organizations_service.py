@@ -85,10 +85,14 @@ class ApiOrganizationsService:
     @staticmethod
     @api_error_handler
     @retry(3)
-    def update_user_in_org():
-        org_id = read_value_in_json(settings.ORGANIZATIONS_PATH, 'orgId')
-        user_login = organizations_user['login']
-        user_id = ApiUsersService.find_user_by_login(user_login)
+    def update_user_in_org(user_id = None, user_login = None, org_id = None):
+        if org_id is None:
+            org_id = read_value_in_json(settings.ORGANIZATIONS_PATH, 'orgId')
+        if user_login is None:
+            user_login = organizations_user['login']
+        if user_id is None:
+            user_id = ApiUsersService.find_user_by_login(user_login)
+
         body = {"role": "Admin"}
 
         url = f'{settings.BASE_URL}/api/orgs/{org_id}/users/{user_id}'

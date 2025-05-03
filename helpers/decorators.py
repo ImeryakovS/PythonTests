@@ -38,4 +38,6 @@ def retry(attempts):
         return wrapper
     return decorator
 
+## Можно добавить в декоратор retry обработку обработку только сетевых и 5xx ошибок.
+
 
