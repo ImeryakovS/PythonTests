@@ -1,0 +1,22 @@
+[33mWARNING [0m root:utils.py:13 ⚠️ /home/runner/work/PythonTests/PythonTests/data/dashboards.json not found, creating from template
+[32mINFO    [0m root:utils.py:23 Function: write_value_in_json, folderUid: ceksz11shy58gf
+[32mINFO    [0m root:utils.py:34 Function: read_value_in_json, folderUid: ceksz11shy58gf
+[32mINFO    [0m root:utils.py:23 Function: write_value_in_json, dashboardUid: aeksz11ufvawwd
+[32mINFO    [0m root:conftest.py:38 Creating organizations.json
+[32mINFO    [0m root:api_users_service.py:26 Method: create_api_user: Status - 200, Body - {"id":2,"uid":"aeksz11wbak8wd","message":"User created"}
+[33mWARNING [0m root:utils.py:13 ⚠️ /home/runner/work/PythonTests/PythonTests/data/users.json not found, creating from template
+[32mINFO    [0m root:utils.py:23 Function: write_value_in_json, userId: 2
+[32mINFO    [0m root:conftest.py:100 Creating Existing User
+[32mINFO    [0m root:api_users_service.py:26 Method: create_api_user: Status - 200, Body - {"id":3,"uid":"eeksz11xhqu4gf","message":"User created"}
+[32mINFO    [0m root:utils.py:23 Function: write_value_in_json, userId: 3
+[32mINFO    [0m root:api_organizations_service.py:60 Method: delete_user_from_org: Status - 200, Body - {"message":"User removed from organization"}
+[32mINFO    [0m root:conftest.py:74 User 3 deleted from org
+[32mINFO    [0m root:conftest.py:76 Creating Low Access User
+[32mINFO    [0m root:utils.py:23 Function: write_value_in_json, orgId: 2
+[32mINFO    [0m root:api_users_service.py:26 Method: create_api_user: Status - 200, Body - {"id":4,"uid":"ceksz1209mry8b","message":"User created"}
+[32mINFO    [0m root:utils.py:23 Function: write_value_in_json, userId: 4
+[32mINFO    [0m root:conftest.py:88 Creating organizations_user
+[32mINFO    [0m root:conftest.py:24 Creating users.json
+[32mINFO    [0m root:utils.py:34 Function: read_value_in_json, dashboardUid: aeksz11ufvawwd
+[32mINFO    [0m root:api_dashboards_service.py:75 Get dashboard uid: aeksz11ufvawwd
+[32mINFO    [0m root:api_dashboards_service.py:81 Get status code: 401
