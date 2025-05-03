@@ -12,6 +12,10 @@ from services.api_dashboards_service import ApiDashboardsService
 from services.api_users_service import ApiUsersService
 
 
+def pytest_configure(config):
+    config.addinivalue_line("markers", "NegativeApi")
+    config.addinivalue_line("markers", "PositiveApi")
+
 @pytest.fixture(scope="session", autouse=True)
 @allure.title("Creating users.json from template")
 def create_users_jsons():
