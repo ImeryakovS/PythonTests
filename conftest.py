@@ -4,7 +4,6 @@ import shutil
 import os
 import logging
 
-
 from config import settings as settings
 from data.users_credentials import existing_credentials, low_access_credentials
 from helpers.cleanup import delete_user_by_login
@@ -77,10 +76,5 @@ def pytest_sessionfinish(session, exitstatus):
     delete_user_by_login(existing_credentials)
     delete_user_by_login(low_access_credentials)
     ApiDashboardsService.delete_dashboard()
-    # assert response.status_code == 200, f'Expected status code 200, got {response.status_code}'
-    # assert response.json().get('title') == title
-    # assert response.json().get('message') == f'Dashboard {title} deleted'
     ApiDashboardsService.delete_folder_for_dashboard()
-    # assert response.status_code == 200, f'Expected status code 200, got {response.status_code}'
-    # assert response.json().get('message') == 'Folder deleted'
     logging.info("Cleaning up is done")
