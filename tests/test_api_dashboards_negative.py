@@ -11,14 +11,13 @@ def test_get_dashboard_with_incorrect_auth():
     response = ApiDashboardsService.get_dashboard_with_incorrect_auth()
     assert response.status_code == 401, f'Expected status code 401, got {response.status_code}'
 
-# Temp deactivated because flaky
-# @allure.title("Test get dashboard from user with low access in the system")
-# @allure.description("This test attempt get dashboard from user with low access in the system")
-# @allure.tag("ApiDashboardsService", "Negative")
-# @pytest.mark.NegativeDashboard
-# def test_get_dashboard_with_low_level_access():
-#     response = ApiDashboardsService.get_dashboard_with_low_level_access()
-#     assert response.status_code == 403, f'Expected status code 403, got {response.status_code}'
+@allure.title("Test get dashboard from user with low access in the system")
+@allure.description("This test attempt get dashboard from user with low access in the system")
+@allure.tag("ApiDashboardsService", "Negative")
+@pytest.mark.NegativeDashboard
+def test_get_dashboard_with_low_level_access():
+    response = ApiDashboardsService.get_dashboard_with_low_level_access()
+    assert response.status_code == 403, f'Expected status code 403, got {response.status_code}'
 
 @allure.title("Test get 404 dashboard")
 @allure.description("This test attempt get 404 dashboard")
