@@ -86,7 +86,7 @@ jobs:
         run: |
           if [ -d gh-pages/allure-report/history ]; then
             mkdir -p allure-results/history
-            cp -r gh-pages/allure-report/history allure-results/history
+            cp -r gh-pages/allure-report/history/* allure-results/history/
           fi
 
       # Generate Allure reports
