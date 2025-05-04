@@ -49,8 +49,13 @@ jobs:
       # Start Grafana
       - name: Wait for Grafana to be ready
         run: |
+          docker ps
           for i in {1..60}; do
-          result=$(curl -s http://localhost:3000/api/health || true)
+          result=$(curl -s http://grafana:3000/api/health || true)
+          if (( i % 10 == 0 )); then
+            echo "--- Grafana logs ---"
+            docker-compose logs --tail=20 grafana
+          fi
           echo "Health check $i: $result"
   
           if echo "$result" | grep -q '"database":"ok"'; then
