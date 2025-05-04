@@ -36,6 +36,11 @@ jobs:
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
+      - name: Run tests with docker-compose
+        id: tests
+        run: docker-compose up --abort-on-container-exit --exit-code-from test-runner
+        continue-on-error: true
+        
       # Wait grafana starts
       - name: Wait for Grafana
         run: |
@@ -49,10 +54,6 @@ jobs:
           done
           echo "Grafana did not start in time!" && exit 1
 
-      - name: Run tests with docker-compose
-        id: tests
-        run: docker-compose up --abort-on-container-exit --exit-code-from test-runner
-        continue-on-error: true
 
       # Clone allure history for allure
       - name: Clone gh-pages branch
