@@ -64,6 +64,11 @@ jobs:
         if: always()
         run: |
           git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+          
+      # make GitHub actions requests as sudo
+      - name: Fix permissions on allure-results
+        if: always()
+        run: sudo chmod -R 777 allure-results
 
       # Restore history from previous report
       - name: Restore history from previous report
