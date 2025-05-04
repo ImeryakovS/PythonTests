@@ -36,10 +36,17 @@ jobs:
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
+        # Full cleanup before start build
+      - name: Full cleanup (local volumes and reports)
+        run: |
+          docker-compose down -v --remove-orphans || true
+          rm -rf allure-results allure-report gh-pages || true
+        
         # Clear cache for docker compose
       - name: Build Docker containers (no cache)
         run: docker-compose build --no-cache
 
+        # Start tests
       - name: Run tests with docker-compose
         id: tests
         run: docker-compose up --abort-on-container-exit --exit-code-from test-runner
