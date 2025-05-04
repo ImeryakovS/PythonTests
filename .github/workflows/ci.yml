@@ -44,20 +44,6 @@ jobs:
         id: tests
         run: docker-compose up --abort-on-container-exit --exit-code-from test-runner
         continue-on-error: true
-        
-      # Wait grafana starts
-      - name: Wait for Grafana
-        run: |
-          for i in {1..30}; do
-            if curl -s -f http://localhost:3000 > /dev/null; then
-              echo "Grafana is ready!"
-              exit 0
-            fi
-            echo "Waiting for Grafana to start..."
-            sleep 2
-          done
-          echo "Grafana did not start in time!" && exit 1
-
 
       # Clone allure history for allure
       - name: Clone gh-pages branch
