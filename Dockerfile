@@ -24,4 +24,4 @@ WORKDIR /app
 COPY . .
 
 # Start command
-CMD ["pytest", "--alluredir=allure-results"]
+CMD ["pytest","tests", "--alluredir=allure-results"]
