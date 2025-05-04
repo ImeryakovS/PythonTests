@@ -24,4 +24,5 @@ WORKDIR /app
 COPY . .
 
 # Start command
+RUN echo "Elements in /app:" && ls -la /app && echo "Elements in /app/tests:" && ls -la /app/tests
 CMD ["pytest","tests", "--alluredir=allure-results"]
