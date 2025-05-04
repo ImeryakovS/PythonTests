@@ -46,6 +46,10 @@ jobs:
       - name: Build test-runner container
         run: docker build -t test-runner .
 
+        #start grafana
+      - name: Start Grafana
+        run: docker-compose up -d grafana
+        
       # Start Grafana
       - name: Wait for Grafana to be ready
         run: |
