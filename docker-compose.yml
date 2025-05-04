@@ -20,7 +20,7 @@ services:
       - ./allure-report:/app/allure-report
     environment:
       GRAFANA_DB_PATH: /var/lib/grafana/grafana.db
-    command: pytest --alluredir allure-results
+    command: pytest ./tests --alluredir allure-results
 
 volumes:
   grafana-data:
