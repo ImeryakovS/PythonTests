@@ -40,7 +40,7 @@ jobs:
       - name: Wait for Grafana
         run: |
           for i in {1..30}; do
-            if curl -s http://localhost:3000 | grep "Found"; then
+            if curl -s -f http://localhost:3000 > /dev/null; then
               echo "Grafana is ready!"
               exit 0
             fi
