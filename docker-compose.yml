@@ -25,17 +25,23 @@ services:
       GRAFANA_DB_PATH: /var/lib/grafana/grafana.db
     command: >
       sh -c "
-      echo '⏳ Waiting for Grafana...';
-      for i in {1..30}; do
-        if curl -s http://grafana:3000/api/health | grep -q '\"database\":\"ok\"'; then
-          echo '✅ Grafana is up';
-          break;
+        echo '⏳ Waiting for Grafana...';
+        for i in {1..120}; do
+          result=$(curl -s http://grafana:3000/api/health || true)
+          echo \"Health check attempt $i: $result\"
+          echo $result | grep -q '\"database\":\"ok\"' && break
+          sleep 2
+        done
+    
+        if ! echo $result | grep -q '\"database\":\"ok\"'; then
+          echo '❌ Grafana did not start in time!'
+          exit 1
         fi
-        echo 'Still waiting...';
-        sleep 2;
-      done;
-      pytest /app/tests --alluredir=/app/allure-results
+    
+        echo '✅ Grafana is up!'
+        pytest /app/tests --alluredir=/app/allure-results
       "
+
 
 volumes:
   grafana-data:
