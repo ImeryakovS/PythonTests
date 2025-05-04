@@ -41,16 +41,47 @@ jobs:
         run: |
           docker-compose down -v --remove-orphans || true
           rm -rf allure-results allure-report gh-pages || true
-        
-        # Clear cache for docker compose
-      - name: Build Docker containers (no cache)
-        run: docker-compose build --no-cache
 
-        # Start tests
-      - name: Run tests with docker-compose
+        # Start test runner
+      - name: Build test-runner container
+        run: docker build -t test-runner .
+
+        # Start Grafana
+      - name: Start Grafana
+        run: docker-compose up -d grafana
+
+        # Wait start Grafana
+      - name: Wait for Grafana to be ready
+        run: |
+          for i in {1..60}; do
+            result=$(curl -s http://localhost:3000/api/health || true)
+            echo "Health check $i: $result"
+            echo $result | grep -q '"database":"ok"' && break
+            sleep 2
+          done
+
+          if ! echo $result | grep -q '"database":"ok"'; then
+            echo '❌ Grafana did not start in time!'
+            docker-compose logs grafana
+            exit 1
+          fi
+
+        #Run tests
+      - name: Run tests
         id: tests
-        run: docker-compose up --abort-on-container-exit --exit-code-from test-runner
+        run: |
+          docker run --rm \
+            -v grafana-data:/var/lib/grafana \
+            -v ${{ github.workspace }}/allure-results:/app/allure-results \
+            -v ${{ github.workspace }}/allure-report:/app/allure-report \
+            -e GRAFANA_DB_PATH=/var/lib/grafana/grafana.db \
+            -e GRAFANA_BASE_URL=http://localhost:3000 \
+            test-runner \
+            pytest /app/tests --alluredir=/app/allure-results
         continue-on-error: true
+
+      - name: Clean up containers
+        run: docker-compose down -v --remove-orphans
 
 #      # Clone allure history for allure
 #      - name: Clone gh-pages branch
