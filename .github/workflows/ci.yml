@@ -79,6 +79,11 @@ jobs:
             cp -r gh-pages/allure-report/history/* allure-results/history/
           fi
 
+      # make GitHub actions requests as sudo
+      - name: Fix permissions on allure-report
+        if: always()
+        run: sudo chmod -R 777 allure-report
+
       # Generate Allure reports
       - name: Generate Allure report
         if: always()
