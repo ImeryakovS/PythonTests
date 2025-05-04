@@ -19,6 +19,7 @@ services:
       - ./allure-results:/app/allure-results
       - ./allure-report:/app/allure-report
     environment:
+      GRAFANA_BASE_URL: http://grafana:3000
       GRAFANA_DB_PATH: /var/lib/grafana/grafana.db
     command: pytest /app/tests --alluredir=/app/allure-results
 
