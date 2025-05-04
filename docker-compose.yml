@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - grafana-data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+
+  test-runner:
+    build:
+      context: .
+    depends_on:
+      - grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./allure-results:/app/allure-results
+      - ./allure-report:/app/allure-report
+    environment:
+      GRAFANA_DB_PATH: /var/lib/grafana/grafana.db
+    command: pytest --alluredir allure-results
+
+volumes:
+  grafana-data:

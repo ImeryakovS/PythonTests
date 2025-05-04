@@ -1,48 +1,35 @@
-permissions:
-  contents: write
-  actions: read
-
 name: Run PyTests
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  actions: read
+
 # Setup Grafana from Docker
 jobs:
-  build:
-    name: Run tests
+  run-tests:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.11"]
-    services:
-      grafana:
-        image: grafana/grafana:latest
-        ports:
-          - 3000:3000
-        options: >-
-          --env GF_SECURITY_ADMIN_PASSWORD=admin
-          --env GF_SECURITY_ADMIN_USER=admin
 
     steps:
-      # Check code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Setup Python
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: install docker compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Run tests with docker-compose
+        run: docker-compose up --abort-on-container-exit --exit-code-from test-runner
+
+        # Setup Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.11
 
-      # Setup dependencies
-      - name: Install dependencies
-        run: pip install pytest
-
-      # Setup requests
-      - name: Install requests
-        run: pip install requests
-
-      # Setup Allure
+        # Setup Allure
       - name: Install Allure CLI
         run: |
           sudo apt update
@@ -51,10 +38,6 @@ jobs:
           tar -zxvf allure-2.27.0.tgz
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-
-      # Setup allure pytest
-      - name: Install Allure
-        run: pip install allure-pytest
 
       # Wait grafana starts
       - name: Wait for Grafana
@@ -75,12 +58,7 @@ jobs:
         run: |
           git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
 
-      # Run PyTest with allure
-      - name: Run PyTest tests with Allure
-        run:  python -m pytest --alluredir allure-results
-
       # Restore history from previous report
-
       - name: Restore history from previous report
         if: always()
         run: |
@@ -92,20 +70,25 @@ jobs:
       # Generate Allure reports
       - name: Generate Allure report
         if: always()
-        run:  allure generate allure-results -o allure-report
+        run: allure generate allure-results -o allure-report
         continue-on-error: true
 
+      #Deploy allure reports to Pages
       - name: Deploy Allure report to GitHub Pages
         if: always()
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-
+          
           cd gh-pages
           rm -rf allure-report
           cp -r ../allure-report ./allure-report
           touch .nojekyll
-
+          
           git add .
           git commit -m "🚀 Update Allure report"
           git push origin gh-pages
+
+      # Final Clean up
+      - name: Clean up containers
+        run: docker-compose down
