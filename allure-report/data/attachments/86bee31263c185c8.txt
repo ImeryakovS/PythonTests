@@ -1,3 +1,0 @@
-[32mINFO    [0m root:utils.py:34 Function: read_value_in_json, dashboardUid: cekt10qe7smiod
-[32mINFO    [0m root:api_dashboards_service.py:109 Get dashboard uid: cekt10qe7smiod12
-[32mINFO    [0m root:api_dashboards_service.py:115 Get status code: 404

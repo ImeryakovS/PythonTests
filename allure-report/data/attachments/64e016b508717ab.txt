@@ -1,3 +1,0 @@
-[32mINFO    [0m root:utils.py:34 Function: read_value_in_json, orgId: 2
-[32mINFO    [0m root:api_users_service.py:45 Method: find_user_by_login: Status - 200, Body - {"id":4,"uid":"","email":"organization@test.ru","name":"Organization","login":"organization","theme":"","orgId":1,"isGrafanaAdmin":false,"isDisabled":false,"isExternal":false,"isExternallySynced":false,"isGrafanaAdminExternallySynced":false,"authLabels":null,"updatedAt":"2025-05-03T21:10:17Z","createdAt":"2025-05-03T21:10:17Z","avatarUrl":""}
-[32mINFO    [0m root:api_organizations_service.py:100 Method: update_user_in_org: Status - 200, Body - {"message":"Organization user updated"}
