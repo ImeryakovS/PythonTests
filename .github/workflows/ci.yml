@@ -66,7 +66,7 @@ jobs:
           fi
           echo "Health check $i: $result"
   
-          if echo "$result" | grep -q '"database":"ok"'; then
+          if echo "$result" | grep -q '"database": *"ok"'; then
            echo "✅ Grafana is ready!"
            break
           fi
@@ -75,7 +75,7 @@ jobs:
           done
           
           # Final check
-          if ! echo "$result" | grep -q '"database":"ok"'; then
+          if ! echo "$result" | grep -q '"database": *"ok"'; then
           echo '❌ Grafana did not start in time!'
           docker-compose logs grafana
           exit 1
