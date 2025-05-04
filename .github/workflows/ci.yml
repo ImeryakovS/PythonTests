@@ -20,9 +20,6 @@ jobs:
           sudo curl -L "https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
 
-      - name: Run tests with docker-compose
-        run: docker-compose up --abort-on-container-exit --exit-code-from test-runner
-
         # Setup Python
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
@@ -52,6 +49,11 @@ jobs:
           done
           echo "Grafana did not start in time!" && exit 1
 
+      - name: Run tests with docker-compose
+        id: tests
+        run: docker-compose up --abort-on-container-exit --exit-code-from test-runner
+        continue-on-error: true
+
       # Clone allure history for allure
       - name: Clone gh-pages branch
         if: always()
@@ -75,7 +77,7 @@ jobs:
 
       #Deploy allure reports to Pages
       - name: Deploy Allure report to GitHub Pages
-        if: always()
+        if: steps.tests.outcome == 'success' || steps.tests.outcome == 'failure'
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
