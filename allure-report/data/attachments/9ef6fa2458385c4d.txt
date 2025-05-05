@@ -1,0 +1,4 @@
+[32mINFO    [0m root:db_service.py:15 Connected to /var/lib/grafana/grafana.db
+[32mINFO    [0m root:db_service.py:29 Created user testDbUser with parameters ('testdbuser@test.com', 'testDb', 'test', 0, 1, 0, '2025-05-05 00:28:48', '2025-05-05 00:28:48')
+[32mINFO    [0m root:db_service.py:15 Connected to /var/lib/grafana/grafana.db
+[32mINFO    [0m root:db_service.py:40 Found user testdbuser@test.com with parameters testdbuser@test.com

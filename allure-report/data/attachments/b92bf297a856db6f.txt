@@ -1,0 +1,2 @@
+[32mINFO    [0m root:db_service.py:15 Connected to /var/lib/grafana/grafana.db
+[32mINFO    [0m root:db_service.py:40 Found user testdbuser@test.com with parameters testdbuser@test.com

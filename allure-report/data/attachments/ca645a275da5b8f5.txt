@@ -1,0 +1,3 @@
+[32mINFO    [0m root:utils.py:34 Function: read_value_in_json, dashboardUid: eekx36nu3z20wc
+[32mINFO    [0m root:api_dashboards_service.py:92 Get dashboard uid: eekx36nu3z20wc
+[32mINFO    [0m root:api_dashboards_service.py:98 Get status code: 403
