@@ -86,6 +86,7 @@ jobs:
         id: tests
         run: |
           docker run --rm \
+            --network my-net \
             -v grafana-data:/var/lib/grafana \
             -v ${{ github.workspace }}/allure-results:/app/allure-results \
             -v ${{ github.workspace }}/allure-report:/app/allure-report \

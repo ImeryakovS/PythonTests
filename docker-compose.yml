@@ -5,6 +5,8 @@ services:
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
+    networks:
+      - my-net
     volumes:
       - grafana-data:/var/lib/grafana
     environment:
@@ -13,3 +15,6 @@ services:
 
 volumes:
   grafana-data:
+
+networks:
+  my-net:
