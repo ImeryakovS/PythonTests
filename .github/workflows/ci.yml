@@ -88,52 +88,52 @@ jobs:
       - name: Clean up containers
         run: docker-compose down -v --remove-orphans
 
-#      # Clone allure history for allure
-#      - name: Clone gh-pages branch
-#        if: always()
-#        run: |
-#          git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
-#
-#      # make GitHub actions requests as sudo
-#      - name: Fix permissions on allure-results
-#        if: always()
-#        run: sudo chmod -R 777 allure-results
-#
-#      # Restore history from previous report
-#      - name: Restore history from previous report
-#        if: always()
-#        run: |
-#          if [ -d gh-pages/allure-report/history ]; then
-#            mkdir -p allure-results/history
-#            cp -r gh-pages/allure-report/history/* allure-results/history/
-#          fi
-#
-#      # make GitHub actions requests as sudo
-#      - name: Fix permissions on allure-report
-#        if: always()
-#        run: sudo chmod -R 777 allure-report
-#
-#      # Generate Allure reports
-#      - name: Generate Allure report
-#        if: always()
-#        run: allure generate allure-results -o allure-report
-#        continue-on-error: true
-#
-#      #Deploy allure reports to Pages
-#      - name: Deploy Allure report to GitHub Pages
-#        if: steps.tests.outcome == 'success' || steps.tests.outcome == 'failure'
-#        run: |
-#          git config --global user.email "actions@github.com"
-#          git config --global user.name "GitHub Actions"
-#
-#          cd gh-pages
-#          rm -rf allure-report
-#          cp -r ../allure-report ./allure-report
-#          touch .nojekyll
-#
-#          git add .
-#          git commit -m "🚀 Update Allure report"
-#          git push origin gh-pages
+      # Clone allure history for allure
+      - name: Clone gh-pages branch
+        if: always()
+        run: |
+          git clone --depth 1 --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+
+      # make GitHub actions requests as sudo
+      - name: Fix permissions on allure-results
+        if: always()
+        run: sudo chmod -R 777 allure-results
+
+      # Restore history from previous report
+      - name: Restore history from previous report
+        if: always()
+        run: |
+          if [ -d gh-pages/allure-report/history ]; then
+            mkdir -p allure-results/history
+            cp -r gh-pages/allure-report/history/* allure-results/history/
+          fi
+
+      # make GitHub actions requests as sudo
+      - name: Fix permissions on allure-report
+        if: always()
+        run: sudo chmod -R 777 allure-report
+
+      # Generate Allure reports
+      - name: Generate Allure report
+        if: always()
+        run: allure generate allure-results -o allure-report
+        continue-on-error: true
+
+      #Deploy allure reports to Pages
+      - name: Deploy Allure report to GitHub Pages
+        if: steps.tests.outcome == 'success' || steps.tests.outcome == 'failure'
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+          cd gh-pages
+          rm -rf allure-report
+          cp -r ../allure-report ./allure-report
+          touch .nojekyll
+
+          git add .
+          git commit -m "🚀 Update Allure report"
+          git push origin gh-pages
 
       # Final Clean up
       - name: Clean up containers
