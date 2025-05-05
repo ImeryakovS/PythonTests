@@ -10,6 +10,23 @@
 This project focuses on automated testing of the Grafana backend using Python + Pytest.
 Both positive and negative API scenarios are covered, with active use of decorators and fixtures.
 
+## Features
+
+- A **Grafana** container is launched via `docker-compose`
+- API and SQL tests are executed using `pytest`
+- Allure reports with history are generated and deployed on [GithubPages](https://imeryakovs.github.io/PythonTests/allure-report/index.html )
+- CI/CD is implemented with GitHub Actions
+- Environment variables control database configuration and Grafana connection
+
+## Tech Stack
+
+- Python 3.11+
+- Pytest
+- Requests
+- Allure (allure-pytest)
+- Docker, Docker Compose
+- GitHub Actions
+
 ### Project Structure:
 
 - `config/` — settings.py contains configuration settings

@@ -4,11 +4,11 @@ BASE_DIR = os.environ.get("GITHUB_WORKSPACE", os.path.abspath(os.path.join(os.pa
 
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 
-# Если есть переменная окружения GRAFANA_DB_PATH — использовать её
+# If GRAFANA_DB_PATH == true then use this variable
 DB_PATH = os.environ.get("GRAFANA_DB_PATH")
 
 if not DB_PATH:
-    # Локальный путь (Windows / Linux)
+    # if not - local path on Windows
     TESTS_ROOT = os.path.dirname(os.path.abspath(__file__))
     DB_PATH = os.path.abspath(
         os.path.join(TESTS_ROOT, '..', '..', 'Mygrafana', 'Mygrafana', 'data', 'grafana.db')
