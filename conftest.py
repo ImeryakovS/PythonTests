@@ -16,6 +16,14 @@ def pytest_configure(config):
     config.addinivalue_line("markers", "NegativeApi")
     config.addinivalue_line("markers", "PositiveApi")
 
+def pytest_sessionstart(session):
+    env_path = os.path.join(os.getcwd(), 'allure-results', 'environment.properties')
+    os.makedirs(os.path.dirname(env_path), exist_ok=True)
+    with open(env_path, 'w') as f:
+        f.write("Python=3.11\n")
+        f.write("BaseURL=http://grafana:3000\n")
+        f.write("Runner=GitHub Actions\n")
+
 @pytest.fixture(scope="session", autouse=True)
 @allure.title("Creating users.json from template")
 def create_users_jsons():
