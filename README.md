@@ -43,10 +43,15 @@ Both positive and negative API scenarios are covered, with active use of decorat
 
 ## How to Run Tests Locally
 
+> Important 1: Please change the credentials in Config/settings.py (BASIC_AUTH) if you are not using the default Grafana admin credentials.
+> Important 2: SQL tests will only pass if you are using a local version of Grafana or running Grafana and the tests inside the same Docker container (they must share the same file system).
+> Important 3: Please change URL (localhost:3000) in Config/settings.py (BASE_URL) to your current URL if you use cloud Grafana or another settings
+
 ### Requirements:
 
 1) Python 3.11
 2) Allure 2.32.0
+3) Grafana latest version
 
 ## Install Python
 
