@@ -1,1 +1,1 @@
-[]
+[{"values":["3.11"],"name":"Python"},{"values":["http://grafana:3000"],"name":"BaseURL"},{"values":["GitHub Actions"],"name":"Runner"}]

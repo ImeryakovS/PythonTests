@@ -1,0 +1,2 @@
+[32mINFO    [0m root:utils.py:34 Function: read_value_in_json, orgId: 2
+[32mINFO    [0m root:api_organizations_service.py:81 Method: get_organizations_by_id: Status - 200, Body - {"id":2,"name":"testOrganization3083","address":{"address1":"","address2":"","city":"","zipCode":"","state":"","country":""}}
