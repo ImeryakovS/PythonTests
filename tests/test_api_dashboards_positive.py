@@ -11,7 +11,7 @@ from services.api_dashboards_service import ApiDashboardsService
 def test_get_dashboard():
     response, title = ApiDashboardsService.get_dashboard()
     assert title == 'Dashboard for API'
-    assert response.status_code == 200, f'Expected status code 200, got {response.status_code}'
+    assert response.status_code == 200, f'Expected status code 200, got {response.status_code} - {response.json().get('message', '')}'
     assert response.json().get("dashboard",{}).get("title") == title
 
 
