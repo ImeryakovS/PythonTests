@@ -90,7 +90,7 @@ jobs:
             -v ${{ github.workspace }}/allure-results:/app/allure-results \
             -v ${{ github.workspace }}/allure-report:/app/allure-report \
             -e GRAFANA_DB_PATH=/var/lib/grafana/grafana.db \
-            -e GRAFANA_BASE_URL=http://localhost:3000 \
+            -e GRAFANA_BASE_URL=http://grafana:3000 \
             test-runner \
             pytest /app/tests --alluredir=/app/allure-results
         continue-on-error: true
