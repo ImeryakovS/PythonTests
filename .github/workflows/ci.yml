@@ -55,6 +55,7 @@ jobs:
 
       # Start Grafana
       - name: Wait for Grafana to be ready
+        id: grafana_check
         run: |
           docker ps
           docker inspect pythontests-grafana-1 --format='Status: {{.State.Status}}, ExitCode: {{.State.ExitCode}}, StartedAt: {{.State.StartedAt}}, FinishedAt: {{.State.FinishedAt}}'
@@ -77,13 +78,19 @@ jobs:
           # Final check
           if ! echo "$result" | grep -q '"database": *"ok"'; then
           echo '❌ Grafana did not start in time!'
+          echo "grafana_ready=false" >> $GITHUB_OUTPUT
           docker-compose logs grafana
           exit 1
           fi
 
+          echo "✅ Grafana is ready!"
+          echo "grafana_ready=true" >> $GITHUB_OUTPUT
+
         #Run tests
       - name: Run tests
+        id: tests
         run: docker-compose run --rm test-runner
+        continue-on-error: true
 
       - name: Clean up containers
         run: docker-compose down -v --remove-orphans
@@ -121,7 +128,7 @@ jobs:
 
       #Deploy allure reports to Pages
       - name: Deploy Allure report to GitHub Pages
-        if: steps.tests.outcome == 'success' || steps.tests.outcome == 'failure'
+        if: steps.grafana_check.outputs.grafana_ready == 'true' && (steps.tests.outcome == 'success' || steps.tests.outcome == 'failure')
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
