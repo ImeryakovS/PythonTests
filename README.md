@@ -52,6 +52,7 @@ Both positive and negative API scenarios are covered, with active use of decorat
 1) Python 3.11
 2) Allure 2.32.0
 3) Grafana latest version
+4) Docker latest version
 
 ## Install Python
 
@@ -61,13 +62,30 @@ Both positive and negative API scenarios are covered, with active use of decorat
 4. Install dependencies: `pip install -r requirements.txt`
 5. Install requests module: `pip install requests`
 
-### How to run the tests:
+### How to Install Grafana
+You can choose one of the following options:
 
-1) Install Grafana locally: https://github.com/grafana/grafana (choose any convenient method)
-2) Start Grafana and ensure it's available at: `http://localhost:3000/`
-3) Clone this repository on your machine
-4) Navigate to the project folder and 
-5) Run autotests: `pytest`
+1) Install Grafana locally by following instructions from the official Grafana repository
+2) Install Grafana in a Docker container using the provided Dockerfile
+
+If you choose the Docker-based setup:
+
+1) Open a terminal from the root project directory (e.g., *\PythonTests)
+2) Run docker-compose up grafana to start Grafana in a container
+3) Open your browser and go to: http://localhost:3000
+
+#### Useful Docker Commands
+1) Cleans up containers and volumes - `docker-compose down -v --remove-orphans`
+2) Builds and starts Grafana, the test-runner, and runs tests - `docker-compose up --build`
+3) View real-time logs for all containers - `docker-compose logs -f`
+4) View real-time logs for Grafana only - `docker-compose logs -f grafana`
+
+
+### How to start tests
+1) Start Grafana and ensure it's available at: `http://localhost:3000/`
+2) Clone this repository on your machine
+3) Navigate to the project folder (e.g., *\PythonTests)
+4) Run autotests: `pytest`
 
 ### CI/CD Integration
 The tests are fully integrated into GitHub Actions. The pipeline is triggered manually.
