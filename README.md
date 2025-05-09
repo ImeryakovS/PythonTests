@@ -5,6 +5,7 @@
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Pytest](https://img.shields.io/badge/tested%20with-pytest-yellow)
 [![Allure Report](https://img.shields.io/badge/Allure-Report-purple)](https://imeryakovs.github.io/PythonTests/allure-report/index.html)
+![Docker Compose](https://img.shields.io/badge/Docker--Compose-enabled-blue?logo=docker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 This project focuses on automated testing of the Grafana backend using Python + Pytest.
