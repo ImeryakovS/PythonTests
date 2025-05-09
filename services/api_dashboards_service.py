@@ -43,7 +43,6 @@ class ApiDashboardsService:
                                  json = body,
                                  headers=headers,
                                  timeout = 10)
-
         dashboard_uid = response.json().get('uid')
         write_value_in_json(settings.DASHBOARDS_TEMPLATE_PATH,settings.DASHBOARDS_PATH, dashboard_uid, 'dashboardUid')
         return response
@@ -112,7 +111,7 @@ class ApiDashboardsService:
                                 auth=settings.BASIC_AUTH,
                                 headers=headers,
                                 timeout = 10)
-        logging.info(f'Get status code: {response.status_code}')
+        logging.info(f'Get status code: {response.status_code}, RESPONSE = {response.json()}')
         return response
 
     @staticmethod

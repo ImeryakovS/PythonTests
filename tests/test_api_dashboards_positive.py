@@ -1,7 +1,10 @@
 import allure
 import pytest
 
+from helpers.schemas.dashboards_schema import GetDashboardSchema
 from services.api_dashboards_service import ApiDashboardsService
+from services.utils import validate_status_code_and_body
+
 
 @allure.title("Test get dashboard in folder")
 @allure.description("This test attempt to get the dashboard in folder")
@@ -10,9 +13,7 @@ from services.api_dashboards_service import ApiDashboardsService
 @pytest.mark.PositiveApi
 def test_get_dashboard():
     response, title = ApiDashboardsService.get_dashboard()
-    assert title == 'Dashboard for API'
-    assert response.status_code == 200, f'Expected status code 200, got {response.status_code} - {response.json().get('message', '')}'
-    assert response.json().get("dashboard",{}).get("title") == title
+    validate_status_code_and_body(response, GetDashboardSchema, 200, path=["dashboard"])
 
 
 
