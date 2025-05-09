@@ -74,7 +74,7 @@ You can choose one of the following options:
 If you choose the Docker-based setup:
 
 1) Open a terminal from the root project directory (e.g., *\PythonTests)
-2) Run docker-compose up grafana to start Grafana in a container
+2) Run `docker-compose up grafana` to start Grafana in a container
 3) Open your browser and go to: http://localhost:3000
 
 #### Useful Docker Commands
