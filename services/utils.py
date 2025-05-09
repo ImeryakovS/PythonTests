@@ -39,6 +39,12 @@ def assert_status_message(response, expected_status, expected_message):
     assert response.status_code == expected_status, f'Expected {expected_status}, got {response.status_code}'
     assert response.json().get('message') == expected_message
 
+def validate_status_code_and_body(response, schema, status_code):
+    data = response.json()
+    validated = schema.model_validate(data)
+    assert response.status_code == status_code, f'Expected status code {status_code}, got {response.status_code} - {response.json().get("message", "")}'
+    assert data == validated.model_dump(), f'Expected data {data}, got {validated.model_dump()}'
+
 def extract_value_in_object(key):
     body = get_body_for_create_dashboard('get')
     key = body['dashboard'][key]

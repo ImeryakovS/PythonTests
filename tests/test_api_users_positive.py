@@ -1,9 +1,12 @@
 import allure
 import pytest
+from pydantic.v1.schema import schema
 
 from data.users_credentials import credentials
+from helpers.schemas.user_schema import CreateUserSchema, ChangeUserPassword, DeleteUserSchema
 from services.api_users_service import ApiUsersService
-from services.utils import assert_status_message
+from services.utils import assert_status_message, validate_status_code_and_body
+
 
 @allure.title("Test create API user")
 @allure.description("This test attempt create new user with credentials")
@@ -12,7 +15,7 @@ from services.utils import assert_status_message
 @pytest.mark.PositiveApi
 def test_create_user():
     response = ApiUsersService.create_api_user(credentials)
-    assert_status_message(response, 200, 'User created')
+    validate_status_code_and_body(response, CreateUserSchema, 200)
 
 @allure.title("Test change API user password")
 @allure.description("This test attempt change password for last created user")
@@ -21,7 +24,7 @@ def test_create_user():
 @pytest.mark.PositiveApi
 def test_change_user_password():
     response = ApiUsersService.change_user_password()
-    assert_status_message(response, 200, 'User password updated')
+    validate_status_code_and_body(response, ChangeUserPassword, 200)
 
 @allure.title("Test delete API user password")
 @allure.description("This test attempt delete last created user")
@@ -30,7 +33,7 @@ def test_change_user_password():
 @pytest.mark.PositiveApi
 def test_delete_user():
     response = ApiUsersService.delete_api_user()
-    assert_status_message(response, 200, 'User deleted')
+    validate_status_code_and_body(response, DeleteUserSchema, 200)
 
 
 
