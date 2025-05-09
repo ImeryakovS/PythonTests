@@ -4,7 +4,7 @@ import data.dashboards_data as data
 import logging
 
 from helpers.decorators import api_error_handler, retry
-from services.utils import write_value_in_json, read_value_in_json, extract_value_in_object
+from services.utils import write_value_in_json, read_value_in_json, extract_value_in_object,total_log_in_method, log_get_id
 
 
 class ApiDashboardsService:
@@ -21,9 +21,9 @@ class ApiDashboardsService:
                                  json = body,
                                  headers=headers,
                                  timeout = 10)
+        total_log_in_method(response)
 
         folder_uid = response.json().get('uid')
-
         write_value_in_json(settings.DASHBOARDS_TEMPLATE_PATH,settings.DASHBOARDS_PATH, folder_uid, 'folderUid')
 
         return response
@@ -43,8 +43,11 @@ class ApiDashboardsService:
                                  json = body,
                                  headers=headers,
                                  timeout = 10)
+        total_log_in_method(response)
+
         dashboard_uid = response.json().get('uid')
         write_value_in_json(settings.DASHBOARDS_TEMPLATE_PATH,settings.DASHBOARDS_PATH, dashboard_uid, 'dashboardUid')
+
         return response
 
     @staticmethod
@@ -54,7 +57,7 @@ class ApiDashboardsService:
         dashboard_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'dashboardUid')
         url = f'{settings.BASE_URL}/api/dashboards/uid/{dashboard_uid}'
         headers = {'Content-Type': 'application/json'}
-        logging.info(f'Get dashboard uid: {dashboard_uid}')
+        log_get_id('dashboard_uid',dashboard_uid)
 
         title = extract_value_in_object('title')
 
@@ -62,6 +65,8 @@ class ApiDashboardsService:
                                 auth=settings.BASIC_AUTH,
                                 headers=headers,
                                 timeout = 10)
+        total_log_in_method(response)
+
         return response, title
 
     @staticmethod
@@ -71,13 +76,14 @@ class ApiDashboardsService:
         dashboard_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'dashboardUid')
         url = f'{settings.BASE_URL}/api/dashboards/uid/{dashboard_uid}'
         headers = {'Content-Type': 'application/json'}
-        logging.info(f'Get dashboard uid: {dashboard_uid}')
+        log_get_id('dashboard_uid',dashboard_uid)
 
         response = requests.get(url,
                                 auth=('admin2','admin2'),
                                 headers=headers,
                                 timeout = 10)
-        logging.info(f'Get status code: {response.status_code}')
+        total_log_in_method(response)
+
         return response
 
     @staticmethod
@@ -88,13 +94,14 @@ class ApiDashboardsService:
 
         url = f'{settings.BASE_URL}/api/dashboards/uid/{dashboard_uid}'
         headers = {'Content-Type': 'application/json'}
-        logging.info(f'Get dashboard uid: {dashboard_uid}')
+        log_get_id('dashboard_uid',dashboard_uid)
 
         response = requests.get(url,
                                 auth=settings.LOW_ACCESS,
                                 headers=headers,
                                 timeout = 10)
-        logging.info(f'Get status code: {response.status_code}')
+        total_log_in_method(response)
+
         return response
 
     @staticmethod
@@ -105,13 +112,14 @@ class ApiDashboardsService:
         dashboard_uid += '12'
         url = f'{settings.BASE_URL}/api/dashboards/uid/{dashboard_uid}'
         headers = {'Content-Type': 'application/json'}
-        logging.info(f'Get dashboard uid: {dashboard_uid}')
+        log_get_id('dashboard_uid',dashboard_uid)
 
         response = requests.get(url,
                                 auth=settings.BASIC_AUTH,
                                 headers=headers,
                                 timeout = 10)
-        logging.info(f'Get status code: {response.status_code}, RESPONSE = {response.json()}')
+        total_log_in_method(response)
+
         return response
 
     @staticmethod
@@ -124,16 +132,17 @@ class ApiDashboardsService:
 
         headers = {'Content-Type': 'application/json'}
         title = extract_value_in_object('title')
+        log_get_id('title',title)
 
-        logging.info(f'title: {title}')
         response = requests.delete(url,
                                    auth = settings.BASIC_AUTH,
                                    headers = headers,
                                    timeout = 10)
+        total_log_in_method(response)
+
         if response.status_code == 404:
             logging.warning(f'User {dashboard_uid} already deleted. Skipping deletion')
             return response,title
-
         return response,title
 
     @staticmethod
@@ -141,7 +150,6 @@ class ApiDashboardsService:
     @retry(3)
     def delete_folder_for_dashboard():
         folder_uid = read_value_in_json(settings.DASHBOARDS_PATH, 'folderUid')
-        logging.warning('test 2 - folder_uid: {}'.format(folder_uid))
         url = f'{settings.BASE_URL}/api/folders/{folder_uid}'
 
         headers = {'Content-Type': 'application/json'}
@@ -149,8 +157,9 @@ class ApiDashboardsService:
                                    auth = settings.BASIC_AUTH,
                                    headers = headers,
                                    timeout = 10)
+        total_log_in_method(response)
+
         if response.status_code == 404:
             logging.warning(f'User {folder_uid} already deleted. Skipping deletion')
             return  response
-
         return response

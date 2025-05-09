@@ -8,7 +8,8 @@ import config.settings as settings
 
 from data.users_credentials import existing_credentials, change_password
 from helpers.decorators import api_error_handler, retry
-from services.utils import write_value_in_json, read_value_in_json
+from services.utils import write_value_in_json, read_value_in_json, total_log_in_method
+
 
 class ApiUsersService:
 
@@ -23,7 +24,8 @@ class ApiUsersService:
                                  json=credentials,
                                  headers=headers,
                                  timeout=10)
-        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+        total_log_in_method(response)
+
         user_id = response.json().get('id')
         if response.status_code == 200:
             write_value_in_json(settings.USERS_TEMPLATE_PATH,settings.USERS_PATH, user_id,'userId')
@@ -42,7 +44,7 @@ class ApiUsersService:
                                 auth=settings.BASIC_AUTH,
                                 headers=headers,
                                 timeout = 10)
-        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+        total_log_in_method(response)
 
         user_id = response.json().get('id')
         return user_id
@@ -58,7 +60,7 @@ class ApiUsersService:
         response = requests.delete(url,
                                    auth=settings.BASIC_AUTH,
                                    timeout = 10)
-        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+        total_log_in_method(response)
 
         if response.status_code == 404:
             print(f'User {userid} already deleted. Skipping deletion')
@@ -77,7 +79,7 @@ class ApiUsersService:
                                  auth=settings.BASIC_AUTH,
                                  headers=headers,
                                  timeout = 10)
-        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+        total_log_in_method(response)
 
         return response
 
@@ -95,7 +97,7 @@ class ApiUsersService:
                                  json = change_password,
                                  headers=headers,
                                  timeout = 10)
-        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+        total_log_in_method(response)
 
         return response
 

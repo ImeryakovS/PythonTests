@@ -8,7 +8,7 @@ from data.organizations_data import test_organizations_body, add_in_organization
 from data.users_credentials import organizations_user
 from helpers.decorators import api_error_handler, retry
 from services.api_users_service import ApiUsersService
-from services.utils import write_value_in_json, read_value_in_json, extract_value_in_object
+from services.utils import write_value_in_json, read_value_in_json, extract_value_in_object, total_log_in_method
 
 
 class ApiOrganizationsService:
@@ -25,6 +25,7 @@ class ApiOrganizationsService:
                                  json = body,
                                  headers=headers,
                                  timeout = 10)
+        total_log_in_method(response)
 
         org_id = response.json().get('orgId')
         write_value_in_json(settings.ORGANIZATIONS_TEMPLATE_PATH,settings.ORGANIZATIONS_PATH,org_id,'orgId')
@@ -44,7 +45,10 @@ class ApiOrganizationsService:
                                  json = body,
                                  headers=headers,
                                  timeout = 10)
+        total_log_in_method(response)
+
         user_id = response.json().get('userId')
+
         return response, user_id
 
     @staticmethod
@@ -59,12 +63,11 @@ class ApiOrganizationsService:
         response = requests.delete(url,
                                    auth=settings.BASIC_AUTH,
                                    timeout = 10)
-        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+        total_log_in_method(response)
 
         if response.status_code == 404:
             print(f'User {userid} already deleted from org. Skipping deletion')
             return
-
         return response
 
     @staticmethod
@@ -78,7 +81,7 @@ class ApiOrganizationsService:
         response = requests.get(url,
                                    auth=settings.BASIC_AUTH,
                                    timeout = 10)
-        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+        total_log_in_method(response)
 
         return response, org_id, name_org
 
@@ -101,7 +104,7 @@ class ApiOrganizationsService:
                                 auth=settings.BASIC_AUTH,
                                 json=body,
                                 timeout = 10)
-        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+        total_log_in_method(response)
 
         return response
 
@@ -116,10 +119,9 @@ class ApiOrganizationsService:
         response = requests.delete(url,
                                    auth=settings.BASIC_AUTH,
                                    timeout = 10)
-        logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, Body - {response.text}")
+        total_log_in_method(response)
 
         if response.status_code == 404:
             print(f'User {org_id} already deleted from org. Skipping deletion')
             return
-
         return response

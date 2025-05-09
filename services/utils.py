@@ -4,7 +4,6 @@ import inspect
 import os
 import shutil
 
-from config import settings
 from data.dashboards_data import get_body_for_create_dashboard
 
 
@@ -54,3 +53,9 @@ def extract_value_in_object(key):
     body = get_body_for_create_dashboard('get')
     key = body['dashboard'][key]
     return key
+
+def total_log_in_method(response):
+    logging.info(f"Method: {inspect.currentframe().f_code.co_name}: Status - {response.status_code}, response - {response.json()}, \n url - {response.url}")
+
+def log_get_id(var_name, name_id):
+    logging.info(f'Current value "{var_name}" is "{name_id}"')
