@@ -1,7 +1,9 @@
 import allure
 import pytest
 
+from helpers.schemas.organizations_schema import AddUserInOrganizations, GetOrganizationsById, UpdateUserInOrg
 from services.api_organizations_service import ApiOrganizationsService
+from services.utils import validate_status_code_and_body
 
 
 @allure.title("Test add new user in organization")
@@ -11,10 +13,7 @@ from services.api_organizations_service import ApiOrganizationsService
 @pytest.mark.PositiveApi
 def test_add_user_in_organization():
     response,user_id = ApiOrganizationsService.add_user_in_organization()
-
-    assert response.status_code == 200, f'Expected status code 200, got {response.status_code} - {response.json().get('message', '')}'
-    assert response.json().get("message") == "User added to organization"
-    assert response.json().get("userId") == user_id
+    validate_status_code_and_body(response, AddUserInOrganizations, 200)
 
 @allure.title("Test get organizations by id")
 @allure.description("This test attempt get organizations by id")
@@ -23,10 +22,8 @@ def test_add_user_in_organization():
 @pytest.mark.PositiveApi
 def test_get_organizations_by_id():
     response,org_id,name_org = ApiOrganizationsService.get_organizations_by_id()
+    validate_status_code_and_body(response, GetOrganizationsById, 200)
 
-    assert response.status_code == 200, f'Expected status code 200, got {response.status_code} - {response.json().get('message', '')}'
-    assert response.json().get("id") == org_id
-    assert response.json().get("name") == name_org
 
 @allure.title("Test update user permissions in org")
 @allure.description("This test attempt update user permissions in org")
@@ -35,9 +32,7 @@ def test_get_organizations_by_id():
 @pytest.mark.PositiveApi
 def test_update_user_in_org():
     response = ApiOrganizationsService.update_user_in_org()
-
-    assert response.status_code == 200, f'Expected status code 200, got {response.status_code} - {response.json().get('message', '')}'
-    assert response.json().get("message") == "Organization user updated"
+    validate_status_code_and_body(response, UpdateUserInOrg, 200)
 
 
 
