@@ -4,6 +4,8 @@ import inspect
 import os
 import shutil
 
+from pydantic import ValidationError
+
 from data.dashboards_data import get_body_for_create_dashboard
 
 
@@ -44,10 +46,17 @@ def validate_status_code_and_body(response, schema, status_code, path: list[str]
     if path:
         for key in path:
             data = data[key]
+    try:
+        validated = schema.model_validate(data)
+    except ValidationError as e:
+        logging.error(f'Error in validation Schema: {e}')
+        raise AssertionError (f'Response = {data}, but expected = {schema.model_dump()}')
 
-    validated = schema.model_validate(data)
     assert response.status_code == status_code, f'Expected status code {status_code}, got {response.status_code} - {response.json().get("message", "")}'
-    assert data == validated.model_dump(), f'Expected data {data}, got {validated.model_dump()}'
+    for field, value in validated.model_dump().items():
+        assert data.get(field) == value, f'Value in "{field}" is unexpected. Expected: {value}, got receive: {data.get(field)}'
+
+    logging.info (f'Function: {inspect.currentframe().f_code.co_name} is successfully validated, \n Response: {data}, \n validated: {validated}')
 
 def extract_value_in_object(key):
     body = get_body_for_create_dashboard('get')
