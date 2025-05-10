@@ -6,7 +6,6 @@ import logging
 
 from config import settings as settings
 from data.users_credentials import existing_credentials, low_access_credentials, organizations_user
-from helpers.cleanup import delete_user_by_login
 from services.api_dashboards_service import ApiDashboardsService
 from services.api_organizations_service import ApiOrganizationsService
 from services.api_users_service import ApiUsersService
