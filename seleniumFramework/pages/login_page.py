@@ -1,5 +1,6 @@
-from selenium.webdriver.common.by import By
 
+from selenium.webdriver.common.by import By
+from seleniumFramework.data.settings import BASE_URL
 
 class LoginPage:
     LOGIN_BUTTON = '[data-testid="data-testid Login button"]'
@@ -9,6 +10,9 @@ class LoginPage:
     def __init__(self, driver):
         self.driver = driver
 
+    def go_to_login_page(self):
+        self.driver.get(f'{BASE_URL}/login')
+
     def click_login_button(self):
         self.driver.find_element(By.CSS_SELECTOR, self.LOGIN_BUTTON).click()
 
@@ -17,3 +21,6 @@ class LoginPage:
 
     def enter_password(self, password):
         self.driver.find_element(By.CSS_SELECTOR, self.PASSWORD_FIELD).send_keys(password)
+
+    def quit_browser(self):
+        self.driver.quit()
