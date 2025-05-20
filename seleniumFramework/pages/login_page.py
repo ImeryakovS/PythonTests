@@ -9,6 +9,7 @@ class LoginPage:
     PASSWORD_FIELD = '[data-testid="data-testid Password input field"]'
 
     def __init__(self, driver):
+        logging.info(f"LoginPage hs received: {type(driver)}")
         self.driver = driver
 
     def go_to_login_page(self):
