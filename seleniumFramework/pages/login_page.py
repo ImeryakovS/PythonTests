@@ -1,3 +1,4 @@
+import logging
 
 from selenium.webdriver.common.by import By
 from seleniumFramework.data.settings import BASE_URL
@@ -12,6 +13,7 @@ class LoginPage:
 
     def go_to_login_page(self):
         self.driver.get(f'{BASE_URL}/login')
+        logging.info(self.driver.current_url)
 
     def click_login_button(self):
         self.driver.find_element(By.CSS_SELECTOR, self.LOGIN_BUTTON).click()

@@ -29,6 +29,13 @@ organizations_user = {
     'password' : 'test'
 }
 
+ui_user = {
+    'name' : 'SergeyUI',
+    'email' : 'SergeyUI@test.ru',
+    'login' : 'SergeyUI',
+    'password' : 'test'
+}
+
 change_password = {
     "password" : "testPassword"
 }

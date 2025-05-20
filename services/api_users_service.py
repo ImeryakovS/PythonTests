@@ -1,12 +1,10 @@
-import inspect
-
 import requests
 from requests import Response
 import logging
 
 import config.settings as settings
 
-from data.users_credentials import existing_credentials, change_password
+from data.users_credentials import change_password
 from helpers.decorators import api_error_handler, retry
 from services.utils import write_value_in_json, read_value_in_json, total_log_in_method
 
