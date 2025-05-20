@@ -10,9 +10,11 @@ from data.users_credentials import ui_user
 from services.utils import validate_status_code_and_body
 
 @pytest.fixture(scope="session", autouse=True)
-def create_ui_user():
+def manage_ui_user():
     response = ApiUsersService.create_api_user(ui_user)
     validate_status_code_and_body(response, CreateUserSchema, 200)
+    yield
+    delete_user_by_login(ui_user)
 
 @pytest.fixture
 def driver():
@@ -20,7 +22,3 @@ def driver():
     yield driver
     driver.quit_browser()
 
-@pytest.fixture(scope="session", autouse=True)
-def delete_ui_user():
-    yield
-    delete_user_by_login(ui_user)
