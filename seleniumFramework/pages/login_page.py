@@ -20,7 +20,11 @@ class LoginPage:
         self.driver.get(f'{BASE_URL}/login')
         logging.info(self.driver.current_url)
 
-    def click_button(self, button, wait_selector=None):
+    def login(self, username, password):
+        self.enter_form(self.USERNAME_FIELD, username)
+        self.enter_form(self.PASSWORD_FIELD, password)
+
+    def click_button_and_wait_next_selector(self, button, wait_selector=None):
         self.driver.find_element(By.CSS_SELECTOR, button).click()
         if wait_selector is not None:
             wait_loading_page(self.driver,wait_selector,)
