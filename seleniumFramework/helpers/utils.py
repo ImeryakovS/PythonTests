@@ -13,7 +13,7 @@ def check_element_exists(page, selector_type,selector, timeout=10):
             WebDriverWait(page.driver, timeout).until(
                 EC.presence_of_element_located((By.XPATH, selector))
             )
-            logging.info(f'Locator {selector} has been detected')
+            logging.info(f'Element {selector}  has been checked and he is there')
             return True
         except TimeoutException:
             pytest.fail(f'Timeout: Locator {selector} has not been detected')
@@ -23,7 +23,13 @@ def check_element_exists(page, selector_type,selector, timeout=10):
             WebDriverWait(page.driver, timeout).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, selector))
             )
-            logging.info(f'Locator {selector} has been detected')
+            logging.info(f'Element {selector}  has been checked and he is there')
             return True
         except TimeoutException:
             pytest.fail(f'Timeout: Locator {selector} has not been detected')
+
+def wait_loading_page(driver, wait_selector, timeout=10,):
+    WebDriverWait(driver,timeout).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, wait_selector))
+    )
+    logging.info(f'Locator {wait_selector} has been detected')
