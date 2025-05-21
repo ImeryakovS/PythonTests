@@ -22,3 +22,6 @@ def driver():
     yield driver
     driver.quit_browser()
 
+@pytest.fixture(autouse=True)
+def open_website(driver):
+    driver.go_to_login_page()
